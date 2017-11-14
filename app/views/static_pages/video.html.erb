@@ -1,0 +1,126 @@
+<%= content_for :video_js_css do%>
+<link href="http://vjs.zencdn.net/5.19.2/video-js.css" rel="stylesheet">
+<% end %>
+
+<div class="fh5co-loader" style="background: url(<%= asset_path "loader.gif"%> center no-repeat #fff);"></div>
+
+<div id="page">
+	<nav class="fh5co-nav" role="navigation">
+		<div class="top">
+			<div class="container">
+				<div class="row">
+          <!--
+					<div class="col-xs-12 text-right">
+						<p class="num">Call: +01 123 456 7890</p>
+						<ul class="fh5co-social">
+							<li>
+								<a href="#">
+									<i class="icon-twitter"></i>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="icon-dribbble"></i>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="icon-github"></i>
+								</a>
+							</li>
+						</ul>
+					</div>
+          -->
+				</div>
+			</div>
+		</div>
+		<div class="top-menu">
+			<div class="container">
+
+      <%= render "layouts/navbar_link", home_active: "", courses_active: "", pricing_active: "", video_active: "active"%>
+
+			</div>
+		</div>
+	</nav>
+
+	<header id="fh5co-header" class="fh5co-cover fh5co-cover-sm" role="banner" style="background-image:url(<%= asset_path "img_bg_2.jpg"%>);" data-stellar-background-ratio="0.5">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2 text-center">
+					<div class="display-t">
+						<div class="display-tc animate-box" data-animate-effect="fadeIn">
+							<h1>動画</h1>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<div id="fh5co-blog">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-7 col-md-7">
+					<div class="fh5co-blog animate-box">
+						<video id="my-video" class="video-js vjs-default-skin" controls preload="auto" width="100%" height="264" poster="" data-setup="{}">
+							<source src="<%= asset_path "movie/sample.mp4"%>" type="video/mp4">
+							<p class="vjs-no-js">
+								TEST
+								<a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+							</p>
+						</video>
+						<div class="blog-text media-tab">
+							<ul class="nav nav-tabs">
+								<li class="active">
+									<a href="#description" data-toggle="tab">説明</a>
+								</li>
+								<li>
+									<a href="#procedure" data-toggle="tab">手順</a>
+								</li>
+							</ul>
+
+							<div class="tab-content">
+								<div class="tab-pane active" id="description"></div>
+								<div class="tab-pane" id="procedure"></div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="col-lg-4 col-md-4">
+					<div class="fh5co-blog animate-box">
+						<div class="blog-text">
+							<h3>ネットワークセキュリティ</h3>
+							<h4>
+								<a href="#">環境の構築</a>
+							</h4>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="gototop js-top">
+	<a href="#" class="js-gotop">
+		<i class="icon-arrow-up"></i>
+	</a>
+</div>
+
+<%= content_for :video_js do %>
+<script src="http://vjs.zencdn.net/5.19.2/video.js"></script>
+<% end %>
+
+<%= content_for :original_javascript do%>
+<script type="text/javascript" >
+	$(function () {
+		$("#description").load("/uploads/procedure/sample.html");
+		$("#procedure").load("/uploads/procedure/test.html");
+	});
+</script>
+<% end %>

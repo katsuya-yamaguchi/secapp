@@ -1,0 +1,72 @@
+<%= content_for :admin_css do%>
+  <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
+<% end %>
+
+<div class="fh5co-loader" style="background: url(<%= asset_path " loader.gif"%> center no-repeat #fff);"></div>
+  <div id="page">
+  <div class="container">
+
+    <% if user_signed_in? %>
+      <p>ログインユーザ：<%= current_user.email %></p>
+    <% end %>
+
+    <% @video.errors.full_messages.each do |msg| %>
+      <p><%= msg %></p>
+    <% end %>
+
+    <%= form_for(@video, :url => {:action => 'file_upload'}) do |f| %>
+      <div class='form-group'>
+      <%= f.label :video_time %><br>
+      <%= f.text_field :video_time %><br>
+      </div>
+
+      <div class='form-group'>
+      <%= f.label :uq_video_name %><br>
+      <%= f.text_field :uq_video_name %><br>
+      </div>
+
+      <div class='form-group'>
+      <%= f.label :fk_groups_id %><br>
+      <%= f.text_field :fk_groups_id %><br>
+      </div>
+
+      <div class='form-group'>
+      <%= f.label :video %>
+      <%= f.file_field :video %>
+      </div>
+
+      <div class='form-group'>
+      <%= f.label :description %>
+      <%= f.file_field :description %>
+      </div>
+
+      <div class='form-group'>
+      <%= f.label :procedure %>
+      <%= f.file_field :procedure %>
+      </div>
+      
+      <%= f.submit %>
+    <% end %>
+
+    <table class='table table-bordered table-striped table-group'>
+    <% for x in 0..@groups.length-1 do %>
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>グループ名</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><%= @groups[x]["id"] %></td>
+          <td><%= @groups[x]["uq_group_name"] %></td>
+        </tr>
+      </tbody>
+    <% end %>
+    </table>
+
+    <%= button_to "LogOut", destroy_user_session_path, method: :delete %>
+
+    </div>
+  </div>
+</div>

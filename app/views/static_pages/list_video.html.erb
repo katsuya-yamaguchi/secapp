@@ -1,0 +1,78 @@
+<div class="fh5co-loader" style="background: url(<%= asset_path "loader.gif"%> center no-repeat #fff);"></div>
+
+<div id="page">
+	<nav class="fh5co-nav" role="navigation">
+		<div class="top">
+			<div class="container">
+				<div class="row">
+          <!--
+					<div class="col-xs-12 text-right">
+						<p class="num">Call: +01 123 456 7890</p>
+						<ul class="fh5co-social">
+							<li><a href="#"><i class="icon-twitter"></i></a></li>
+							<li><a href="#"><i class="icon-dribbble"></i></a></li>
+							<li><a href="#"><i class="icon-github"></i></a></li>
+						</ul>
+					</div>
+          -->
+				</div>
+			</div>
+		</div>
+		<div class="top-menu">
+			<div class="container">
+        
+        <%= render "layouts/navbar_link", home_active: "", courses_active: "", pricing_active: "", video_active: ""%>
+        
+			</div>
+		</div>
+	</nav>
+
+	<header id="fh5co-header" class="fh5co-cover fh5co-cover-sm" role="banner" style="background-image:url(<%= asset_path "img_bg_2.jpg"%>);" data-stellar-background-ratio="0.5">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2 text-center">
+					<div class="display-t">
+						<div class="display-tc animate-box" data-animate-effect="fadeIn">
+              <h1><%= @video_group_name["uq_group_name"] %></h1>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<div id="fh5co-blog">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 col-md-12">
+					<div class="fh5co-blog animate-box">
+						<div class="blog-text dropdown">
+
+							<!-- 追加 動画一覧の表示 -->
+							  <div class="table-responsive">
+								  <table class="table table-hover video-list">
+								  	<tbody>
+                      <% for x in 0..@video_id.size-1 do %>
+										    <tr>
+                          <td class="text-right"><%= x+1 %></td>
+                          <td><%= link_to @video_name[x], {controller: "static_pages", action: "video", id: @video_id[x]}, data: {"turbolinks" => false} %></td>
+                          <td><%= @video_time[x] %></td>
+										    </tr>
+                      <% end %>
+								  	</tbody>
+								  </table>
+							  </div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="gototop js-top">
+	<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
+</div>
