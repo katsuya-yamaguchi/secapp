@@ -7988,3 +7988,18 @@ Completed 200 OK in 6562ms (Views: 6455.1ms | ActiveRecord: 30.2ms)
   [1m[35m (0.5ms)[0m  [1m[35mALTER TABLE "schema_migrations" ENABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" ENABLE TRIGGER ALL;ALTER TABLE "video_categories" ENABLE TRIGGER ALL;ALTER TABLE "video_groups" ENABLE TRIGGER ALL;ALTER TABLE "videos" ENABLE TRIGGER ALL;ALTER TABLE "users" ENABLE TRIGGER ALL[0m
   [1m[35m (0.2ms)[0m  [1m[31mROLLBACK TO SAVEPOINT active_record_1[0m
   [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+Started GET "/" for 127.0.0.1 at 2017-11-16 13:35:54 +0900
+Processing by StaticPagesController#index as HTML
+Filter chain halted as :basic rendered or redirected
+Completed 401 Unauthorized in 12ms
+Started GET "/" for 127.0.0.1 at 2017-11-16 13:36:01 +0900
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  Rendered layouts/_navbar_link.html.erb (8.2ms)
+  Rendered static_pages/index.html.erb within layouts/application (261.2ms)
+Completed 200 OK in 288ms (Views: 282.6ms)
+Started GET "/assets/application-9166a34d71a253ff71f1858e7fc4ea948a3cb614c86a2f5e68af1a0527408ba4.css" for 127.0.0.1 at 2017-11-16 13:36:02 +0900
+Started GET "/assets/modernizr-2.6.2.min-d11431eff7ef26ba51c7b399010b1529d0b66b42a2ec03d027e7965848e88e0a.js" for 127.0.0.1 at 2017-11-16 13:36:02 +0900
+Started GET "/assets/application-355056a2ab0cd5dd09bf3bdd0878471679c95c874f72de6c1dddeebe6b0c23c1.js" for 127.0.0.1 at 2017-11-16 13:36:02 +0900
+Started GET "/assets/work_1-4c99eefd8fbbc9a8beaefaca398e64b59d9a9fc8120397652f77cb6f0a6dfdf6.png" for 127.0.0.1 at 2017-11-16 13:36:02 +0900
+Started GET "/assets/img_bg_1-39018e0c36b5d4c50a52a1f94c77e8684ea361ec680c3306e78b33efd34be5cb.jpg" for 127.0.0.1 at 2017-11-16 13:36:02 +0900
