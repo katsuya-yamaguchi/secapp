@@ -20,11 +20,6 @@ default: &default
   # For details on connection pooling, see rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  database: sec_app_db
-  username: sec_op
-  password: ka141913
-  host: 192.168.200.10
-  port: 5432
 
 development:
   #<<: *default
@@ -63,8 +58,11 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  #database: sec_app_db_test
-  url: <%= ENV['DATABASE_URL']  %>
+  database: sec_app_db_test
+  username: sec_op
+  password: ka141913
+  host: 127.0.0.1
+  port: 5432
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
