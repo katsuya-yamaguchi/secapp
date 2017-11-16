@@ -24,3 +24,9 @@
 //= require jquery.magnific-popup.min
 //= require magnific-popup-options
 //= require main
+//= require add_content
+//= require cable
+//= require google_map
+//= require modernizr-2.6.2.min
+//= require respond.min
+//= require static_pages

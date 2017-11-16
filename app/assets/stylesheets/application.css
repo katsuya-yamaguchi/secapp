@@ -17,5 +17,8 @@
  *= require owl.carousel.min
  *= require owl.theme.default.min
  *= require style
- *= require admin 
+ *= require admin
+ *= require flexslider
+ *= require magnific-popup
+ *= require static_pages
  */
