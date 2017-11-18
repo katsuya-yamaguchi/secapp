@@ -24,8 +24,7 @@ default: &default
 development:
   <<: *default
   #database: sec_app_db
-  port: 5432
-  url: <%= ENV['HEROKU_POSTGRESQL_OLIVE_URL']  %>
+  url: <%= ENV['DATABASE_URL'] %>
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
