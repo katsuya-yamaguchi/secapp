@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe "management" do
   let(:user){ create(:user) }
+  let(:video){ create(:video) }
   let(:video_group){ create(:video_group) }
   let(:login_to_get){
     login_as(user)
@@ -30,5 +31,19 @@ describe "management" do
   end
 
   context "Post admin_path" do
+    it "Successful save of Video model." do
+      login_as(user)
+      video_group
+      expect { post admin_path, video: attributes_for(:video) }.to change(Video, :count).by(1)
+    end
+    it "Redirect to admin_path." do
+      login_as(user)
+      video_group
+      post admin_path, video: attributes_for(:video)
+      expect(response).to redirect_to("/admin")
+    end
+    it "Render is index." do
+      # エラーにする方法が分からないため、スキップする。
+    end
   end
 end
