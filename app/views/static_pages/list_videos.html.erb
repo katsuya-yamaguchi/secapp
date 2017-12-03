@@ -34,7 +34,7 @@
 				<div class="col-md-8 col-md-offset-2 text-center">
 					<div class="display-t">
 						<div class="display-tc animate-box" data-animate-effect="fadeIn">
-              <h1><%= @request_courses_name.upcase %></h1>
+              <h1><%= @video_group_name["uq_group_name"] %></h1>
 						</div>
 					</div>
 				</div>
@@ -49,9 +49,20 @@
 					<div class="fh5co-blog animate-box">
 						<div class="blog-text dropdown">
 
-              <% for x in 0..@video_group_id.size-1 do %>
-                <h2><%= link_to @video_group_name[x], {controller: "static_pages", action: "list_video", id: @video_group_id[x]}, data: {"turbolinks" => false} %></h2>
-              <% end %>
+							<!-- 追加 動画一覧の表示 -->
+							  <div class="table-responsive">
+								  <table class="table table-hover video-list">
+								  	<tbody>
+                      <% for x in 0..@video_id.size-1 do %>
+										    <tr>
+                          <td class="text-right"><%= x+1 %></td>
+                          <td><%= link_to @video_name[x], {controller: "static_pages", action: "videos", id: @request_category_perm.downcase, video_perm: @video_perm[x] }, data: {"turbolinks" => false} %></td>
+                          <td><%= @video_time[x] %></td>
+										    </tr>
+                      <% end %>
+								  	</tbody>
+								  </table>
+							  </div>
 
 						</div>
 					</div>
@@ -59,6 +70,16 @@
 			</div>
 		</div>
 	</div>
+  <footer id="fh5co-footer" role="contentinfo">
+    <div class="container">
+      <div class="row row-pb-md">
+        <div class="col-md-2 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-6 col-xs-offset-3 col-md-push-1">
+          <h4 class="text-center"><a href="/">Top</a></h4>
+          <h4 class="text-center"><a href="/courses">courses</a></h4>
+        </div>
+      </div>
+    </div>
+  </footer>
 
 </div>
 
