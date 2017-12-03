@@ -44,12 +44,13 @@
       <%= f.label :procedure %>
       <%= f.file_field :procedure %>
       </div>
-      
+
       <%= f.submit %>
     <% end %>
 
     <table class='table table-bordered table-striped table-group'>
     <% for x in 0..@groups.length-1 do %>
+      <caption>ビデオグループ 一覧</caption>
       <thead>
         <tr>
           <th>id</th>

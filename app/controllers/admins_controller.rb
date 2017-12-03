@@ -8,17 +8,14 @@ class AdminsController < ApplicationController
   end
 
   def file_upload
-    video_created_at = Time.new
-    video_updated_at = Time.new
-
     @video = Video.new(file_params)
     @video.attributes = { created_at: Time.new, updated_at: Time.new }
     if @video.save
       redirect_to admin_path
     else
-      p @video.errors.full_messages 
+      p @video.errors.full_messages
       video_group_select
-      render :index 
+      render :index
     end
   end
 
@@ -28,6 +25,6 @@ class AdminsController < ApplicationController
 
   def file_params
    params.require(:video).permit(:uq_video_name, :video_time, :fk_groups_id, :video, :description, :procedure)
-  end 
+  end
 
 end
