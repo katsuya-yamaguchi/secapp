@@ -37,7 +37,7 @@ RSpec.describe StaticPagesController, type: :controller do
     end
   end
 
-  describe "list" do
+  describe "list_courses" do
     let(:video_group){ create(:video_group) }
     let(:video_category){ create(:video_category) }
     let(:params){ { id: 1 } }
@@ -46,7 +46,7 @@ RSpec.describe StaticPagesController, type: :controller do
     let(:video_group_name){ video_group.attributes["uq_group_name"] }
     context "Get #list" do
       it "Response is 200." do
-        get :list, params
+        get :list_courses, params
         expect(response).to have_http_status(200)
       end
       it "The value of @request_courses_name is correct."
@@ -62,7 +62,7 @@ RSpec.describe StaticPagesController, type: :controller do
     end
   end
 
-  describe "list_video" do
+  describe "list_videos" do
     let(:video){ create(:video) }
     let(:video_group){ create(:video_group) }
     let(:params){ { id: 1 } }
@@ -86,6 +86,21 @@ RSpec.describe StaticPagesController, type: :controller do
         expect(video_time.class).to eq ActiveRecord::Type::Time::Value
       end
     end
+  end
+
+  describe "video" do
+    let(:video){ create(:video) }
+    let(:params){ { id: video.attributes["id"] } }
+    it "Response is 200." do
+      get :video, params
+      expect(response).to have_http_status(200) 
+    end
+    it "Successful selection of video file." do
+      # select video from videos where fk_groups_id = 
+    end
+    it "Successful selection of desc file."
+    it "Successful selection of proc file."
+    it "Successful assignment of variable."
   end
 
 end

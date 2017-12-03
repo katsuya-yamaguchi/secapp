@@ -5,6 +5,7 @@ FactoryGirl.define do
     fk_category_id "1"
     created_at Time.new
     updated_at Time.new
+    uq_group_perm "test-group"
 
     before(:create) do |video_group|
       create(:video_category)

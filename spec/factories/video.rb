@@ -6,9 +6,10 @@ FactoryGirl.define do
     fk_groups_id "1"
     created_at Time.new
     updated_at Time.new
-    video "0001_owasp_setup.m3u8"
-    description "0001_owasp_setup_desc.html"
-    procedure "0001_owasp_setup_proc.html"
+    video Rack::Test::UploadedFile.new(File.join(Rails.root, "public/uploads/video/log-entry-75144.html"))
+    description Rack::Test::UploadedFile.new(File.join(Rails.root, "public/uploads/desc/log-entry-75144.html")) 
+    procedure Rack::Test::UploadedFile.new(File.join(Rails.root, "public/uploads/procedure/sample.html"))
+    uq_video_perm "test-video"
 
     before(:create) do |video|
       create(:video_group)
