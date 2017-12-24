@@ -46,6 +46,21 @@ class StaticPagesController < ApplicationController
   end
 
   def videos
+    @list_video_name = []
+    @list_video_file = []
+    @list_video_desc = []
+    @list_video_proc = []
+    @list_video_perm = []
+    @request_group_perm = request.fullpath.split("/")[2]
+    @request_video_perm = request.fullpath.split("/")[4]
+    @active_video_item = Video.select("fk_groups_id, description, procedure, uq_video_name").where(uq_video_perm: @request_video_perm)[0].attributes
+    Video.select("id, uq_video_name, video, description, procedure, uq_video_perm").where(fk_groups_id: @active_video_item["fk_groups_id"]).where.not(uq_video_name: @active_video_item["uq_video_name"]).order("id").find_each do |vd|
+      @list_video_name.push(vd.uq_video_name)
+      @list_video_file.push(vd.video)
+      @list_video_desc.push(vd.description)
+      @list_video_proc.push(vd.procedure)
+      @list_video_perm.push(vd.uq_video_perm)
+    end
   end
 
 end

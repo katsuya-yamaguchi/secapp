@@ -88,15 +88,20 @@ RSpec.describe StaticPagesController, type: :controller do
     end
   end
 
-  describe "video" do
+  describe "videos" do
     let(:video){ create(:video) }
-    let(:params){ { id: video.attributes["id"] } }
+    #let(:video_group){ create(:video_group) }
+    let(:params){ { id: "test-perm", video_perm: video.attributes["uq_video_perm"] } }
     it "Response is 200." do
-      get :video, params
+      p params
+      get :videos, params
       expect(response).to have_http_status(200) 
     end
-    it "Successful selection of video file." do
-      # select video from videos where fk_groups_id = 
+    it "Successful selection of video file list." do
+      # select uq_video_name from videos where fk_groups_id = (
+      #   select fk_groups_id from videos where uq_video_perm = @request_video_perm;
+      # ) order by id
+      # Video.select("fk_groups_id").where(uq_video_perm: @request_video_perm)
     end
     it "Successful selection of desc file."
     it "Successful selection of proc file."

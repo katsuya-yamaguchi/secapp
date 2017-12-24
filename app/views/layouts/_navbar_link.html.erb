@@ -7,12 +7,21 @@
   </div>
   <div class="col-xs-11 text-right menu-1">
     <ul>
-      <li class="<%= home_active%>">
-        <%= link_to "Home", root_path%>
-      </li>
-      <li class="<%= courses_active%>">
-        <%= link_to "Courses", courses_path%>
-      </li>
+      <% if request.fullpath.split("/")[1] == "courses" %>
+        <li>
+          <%= link_to "Home", root_path%>
+        </li>
+        <li class="active">
+          <%= link_to "Courses", courses_path%>
+        </li>
+      <% else %>
+        <li class="active">
+          <%= link_to "Home", root_path%>
+        </li>
+        <li>
+          <%= link_to "Courses", courses_path%>
+        </li>
+      <% end %>
 
       <!-- ベータ版では実装しないため、一時的にコメントアウト
       <% if user_signed_in? %>

@@ -1782,7 +1782,11 @@ h1, h2, h3, h4, h5, h6, figure {
 
 /* list.html 動画一覧 */
 
-#fh5co-blog .blog-text .video-list td {
+#fh5co-blog .blog-text .video-list td{
+  border: none;
+}
+
+table {
   border: none;
 }
 

@@ -37,7 +37,7 @@
 		<div class="top-menu">
 			<div class="container">
 
-      <%= render "layouts/navbar_link", home_active: "", courses_active: "", pricing_active: "", video_active: "active"%>
+      <%= render "layouts/navbar_link" %>
 
 			</div>
 		</div>
@@ -50,7 +50,7 @@
 				<div class="col-md-8 col-md-offset-2 text-center">
 					<div class="display-t">
 						<div class="display-tc animate-box" data-animate-effect="fadeIn">
-							<h1>動画</h1>
+              <h1><%= @active_video_item["uq_video_name"] %></h1>
 						</div>
 					</div>
 				</div>
@@ -91,10 +91,12 @@
 
 				<div class="col-lg-4 col-md-4">
 					<div class="fh5co-blog animate-box">
-						<div class="blog-text">
+						<div class="list-group">
 							<h3>関連動画</h3>
 							<h4>
-								<a href="#">環境の構築</a>
+                <% for x in 0..@list_video_name.size-1 do %>
+                  <%= link_to @list_video_name[x], { controller: "static_pages", action: "videos", id: @request_group_perm, video_perm: @list_video_perm[x] } %></br>
+                <% end %>
 							</h4>
 						</div>
 					</div>
@@ -119,8 +121,8 @@
 <%= content_for :original_javascript do%>
 <script type="text/javascript" >
 	$(function () {
-		$("#description").load("/uploads/procedure/sample.html");
-		$("#procedure").load("/uploads/procedure/test.html");
+    $("#description").load("/uploads/desc/<%= @active_video_item["description"] %>");
+    $("#procedure").load("/uploads/procedure/<%= @active_video_item["procedure"] %>");
 	});
 </script>
 <% end %>
