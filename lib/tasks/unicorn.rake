@@ -1,4 +1,4 @@
-enamespace :unicorn do
+namespace :unicorn do
 
   # Tasks
   desc "Start unicorn"
