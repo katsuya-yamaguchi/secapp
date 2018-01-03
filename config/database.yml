@@ -88,4 +88,8 @@ test:
 #
 production:
   <<: *default
-  database: sec_op
+  database: sec_app_db
+  username: sec_op
+  password: ka141913
+  host: 192.168.100.1
+  port: 5432
