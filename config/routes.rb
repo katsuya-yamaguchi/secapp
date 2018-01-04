@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, skip: [:registrations]
   root 'static_pages#index'
 
   get '/riyokiyaku', to: 'static_pages#riyokiyaku'

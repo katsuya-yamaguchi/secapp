@@ -24,17 +24,6 @@
       <% end %>
 
       <!-- ベータ版では実装しないため、一時的にコメントアウト
-      <% if user_signed_in? %>
-        <li class="btn-cta">
-          <%= link_to destroy_user_session_path, method: :delete, data: {"turbolinks" => false} do%>
-            <span>LogOut</span>
-          <% end %>
-        </li>
-        <% else %>
-          <%= link_to new_user_registration_path, data: {"turbolinks" => false} do %>
-            <span>Login/SignUp</span>
-          <% end %>
-      <% end %>
       -->
 
     </ul>
