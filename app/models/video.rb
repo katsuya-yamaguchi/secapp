@@ -1,5 +1,5 @@
 class Video < ApplicationRecord
-  mount_uploader :video, VideoUploader
+  mount_uploader :video_file_name, VideoUploader
   mount_uploader :description, DescriptionUploader
   mount_uploader :procedure, ProcedureUploader
   

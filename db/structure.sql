@@ -177,7 +177,7 @@ CREATE TABLE videos (
     fk_groups_id bigint NOT NULL,
     delete_flag integer DEFAULT 0 NOT NULL,
     num_play bigint DEFAULT 0 NOT NULL,
-    video character varying(255),
+    video_file_name character varying(255),
     description character varying(255),
     procedure character varying(255),
     created_at timestamp without time zone NOT NULL,
@@ -359,10 +359,10 @@ CREATE UNIQUE INDEX index_videos_on_uq_video_perm ON videos USING btree (uq_vide
 
 
 --
--- Name: index_videos_on_video; Type: INDEX; Schema: public; Owner: -
+-- Name: index_videos_on_video_file_name; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_videos_on_video ON videos USING btree (video);
+CREATE UNIQUE INDEX index_videos_on_video_file_name ON videos USING btree (video_file_name);
 
 
 --
@@ -393,6 +393,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20170723080736'),
 ('20170923071025'),
 ('20171129121425'),
-('20171129124044');
+('20171129124044'),
+('20180107032456');
 
 
