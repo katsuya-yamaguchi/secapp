@@ -31,6 +31,7 @@
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= yield :video_js_css %>
+    <%= yield :video_js %>
     <%= yield :admin_css %>
     <%= javascript_include_tag 'modernizr-2.6.2.min', 'data-turbolinks-track': 'reload' %>
   </head>
@@ -38,7 +39,6 @@
   <body>
     <%= yield %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= yield :video_js %>
     <%= yield :original_javascript %>
   </body>
 </html>

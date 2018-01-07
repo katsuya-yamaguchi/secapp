@@ -53,11 +53,11 @@ class StaticPagesController < ApplicationController
     @list_video_perm = []
     @request_group_perm = request.fullpath.split("/")[2]
     @request_video_perm = request.fullpath.split("/")[4]
-    @active_video_item = Video.select("fk_groups_id, description, procedure, uq_video_name").where(uq_video_perm: @request_video_perm)[0].attributes
+    @active_video_item = Video.select("fk_groups_id, video_file_name, description, procedure, uq_video_name").where(uq_video_perm: @request_video_perm)[0].attributes
     Video.select("id, uq_video_name, video_file_name, description, procedure, uq_video_perm").where(fk_groups_id: @active_video_item["fk_groups_id"]).where.not(uq_video_name: @active_video_item["uq_video_name"]).order("id").find_each do |vd|
       @list_video_name.push(vd.uq_video_name)
-      @list_video_file.push(vd.video_file_name)
-      p @list_video_file
+      @list_video_file.push(vd.video_file_name.to_param.split("/")[3])
+      pp vd.video_file_name.to_param.split("/")[3]
       @list_video_desc.push(vd.description)
       @list_video_proc.push(vd.procedure)
       @list_video_perm.push(vd.uq_video_perm)

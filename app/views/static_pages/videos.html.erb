@@ -1,6 +1,10 @@
 <%= content_for :video_js_css do%>
 <link href="http://vjs.zencdn.net/5.19.2/video-js.css" rel="stylesheet">
 <% end %>
+<%= content_for :video_js do %>
+<script src="http://vjs.zencdn.net/5.19.2/video.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.12.2/videojs-contrib-hls.min.js"></script>
+<% end %>
 
 <div class="fh5co-loader" style="background: url(<%= asset_path "loader.gif"%> center no-repeat #fff);"></div>
 
@@ -64,7 +68,7 @@
 				<div class="col-lg-7 col-md-7">
 					<div class="fh5co-blog animate-box">
 						<video id="my-video" class="video-js vjs-default-skin" controls preload="auto" width="100%" height="264" poster="" data-setup="{}">
-              <source src="<%= asset_path "movie/#{@list_video_file}"%>" type="video/mp4">
+              <source src="<%= asset_path "uploads/video/#{@active_video_item["video_file_name"]}"%>" type="application/x-mpegURL">
 							<p class="vjs-no-js">
 								TEST
 								<a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
@@ -114,9 +118,6 @@
 	</a>
 </div>
 
-<%= content_for :video_js do %>
-<script src="http://vjs.zencdn.net/5.19.2/video.js"></script>
-<% end %>
 
 <%= content_for :original_javascript do%>
 <script type="text/javascript" >
