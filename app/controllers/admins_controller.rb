@@ -11,7 +11,7 @@ class AdminsController < ApplicationController
     @video = Video.new(file_params)
     @video.attributes = { created_at: Time.new, updated_at: Time.new }
     if @video.save
-      redirect_to admin_path
+      redirect_to admins_path
     else
       p @video.errors.full_messages
       video_group_select
@@ -24,7 +24,7 @@ class AdminsController < ApplicationController
   end
 
   def file_params
-   params.require(:video).permit(:uq_video_name, :video_time, :fk_groups_id, :video, :description, :procedure)
+   params.require(:video).permit(:uq_video_name, :video_time, :fk_groups_id, :video_file_name, :description, :procedure, :uq_video_perm)
   end
 
 end

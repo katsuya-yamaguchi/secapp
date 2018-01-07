@@ -31,8 +31,8 @@
       </div>
 
       <div class='form-group'>
-      <%= f.label :video %>
-      <%= f.file_field :video %>
+      <%= f.label :video_file_name %>
+      <%= f.file_field :video_file_name %>
       </div>
 
       <div class='form-group'>
@@ -43,6 +43,11 @@
       <div class='form-group'>
       <%= f.label :procedure %>
       <%= f.file_field :procedure %>
+      </div>
+
+      <div class='video-perm'>
+        <%= f.label :uq_video_perm %><br>
+        <%= f.text_field :uq_video_perm %><br>
       </div>
 
       <%= f.submit %>
