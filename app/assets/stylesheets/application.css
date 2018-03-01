@@ -6,19 +6,24 @@
  * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
  *
  * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ :q
+
  * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require animate
- *= require icomoon
- *= require bootstrap
- *= require magnific-popup
- *= require owl.carousel.min
- *= require owl.theme.default.min
- *= require style
- *= require admin
- *= require flexslider
- *= require magnific-popup
+ * require animate
+ * require icomoon
+ *= require bootstrap.min
+ *= require font-awesome
+ *= require jquery-ui
+ *= require jquery.tagit
+ * require magnific-popup
+ * require owl.carousel.min
+ * require owl.theme.default.min
+ * require style
+ * require admin
+ * require flexslider
+ * require magnific-popup
  *= require static_pages
  */

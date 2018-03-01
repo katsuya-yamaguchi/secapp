@@ -182,7 +182,8 @@ CREATE TABLE videos (
     procedure character varying(255),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    uq_video_perm character varying(255) NOT NULL
+    uq_video_perm character varying(255) NOT NULL,
+    fk_users_id bigint NOT NULL
 );
 
 
@@ -382,6 +383,14 @@ ALTER TABLE ONLY videos
 
 
 --
+-- Name: videos fk_rails_f8bc10e708; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY videos
+    ADD CONSTRAINT fk_rails_f8bc10e708 FOREIGN KEY (fk_users_id) REFERENCES users(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -394,6 +403,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20170923071025'),
 ('20171129121425'),
 ('20171129124044'),
-('20180107032456');
+('20180107032456'),
+('20180228205051'),
+('20180228205556');
 
 

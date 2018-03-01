@@ -34,7 +34,8 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-gem 'bootstrap-sass', '~> 3.3.6'
+#gem 'bootstrap', '~> 4.0.0'
+gem "font-awesome-rails"
 
 # fix deploy-error-001
 gem 'listen', '~> 3.0.5'

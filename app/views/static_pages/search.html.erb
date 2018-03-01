@@ -1,0 +1,124 @@
+  <div class="container">
+
+    <ul class="nav nav-tabs justify-content-center nav-fill mt-2" role="tablist">
+      <li class="nav-item nav-search-item <%= @nav_item_keyword %>"><a href="#search-keyword" class="nav-link" id="search_field_keyword" aria-selected="true" role="tab" data-toggle="tab">キーワード検索</a></li>
+      <li class="nav-item nav-search-item <%= @nav_item_tag %>"><a href="#search-tag" class="nav-link" id="search_field_tag" aria-selected="false" role="tab" data-toggle="tab">タグ検索</a></li>
+    </ul>
+
+    <%= form_tag(search_path, class: 'mt-2', method: :get) do %>
+      <div class="input-group">
+        <div class="input-group-append">
+          <button type="submit" class="btn btn-primary"><i class="fa fa-search" style="font-size: 1.5rem;"></i></button>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="tab-content">
+      <div id="search-keyword" class="tab-pane active" role="tabpanel">
+        <div class="content">
+          <div class="col-12 mx-auto my-1 infinite-content">
+          <% for num in 0..@initial_video_title.size-1 do %>
+            <div class="card">
+              <img class="card-img-top img-fluid" src="<%= asset_path "img_bg_top.jpg" %>" alt="" style="height: 20rem;">
+              <div class="card-body">
+                <h4 class="card-title"><%= @initial_video_title[num] %></h4>
+                <i class="fa fa-thumbs-up" style="font-size: 1.5rem;">
+                  <span class="badge badge-pill badge-secondary" id="good-num">100</span>
+                </i>
+              </div>
+            </div>
+          <% end %>
+          </div>
+        </div>
+      </div>
+      <div id="search-tag" class="tab-pane" role="tabpanel">
+        <div class="content">
+          <div class="col-12 mx-auto my-1 infinite-content">
+          <% for num in 0..@initial_video_title.size-1 do %>
+            <div class="card">
+              <img class="card-img-top img-fluid" src="<%= asset_path "img_bg_top.jpg" %>" alt="" style="height: 20rem;">
+              <div class="card-body">
+                <h4 class="card-title"><%= @initial_video_title[num] %></h4>
+                <i class="fa fa-thumbs-up" style="font-size: 1.5rem;">
+                  <span class="badge badge-pill badge-secondary" id="good-num">100</span>
+                </i>
+              </div>
+            </div>
+          <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+<%= content_for :search_pagination do %>
+    <script>
+      var active_nav = 'search_field_keyword'
+      var rails_text_field = '<%= text_field_tag :tags, "", class: "form-control", placeholder: "キーワードを入力して下さい" %>' 
+      var hidden_params_keyword = '<input type="hidden" name="search_type" id="search_type" value="search_field_keyword">'
+      var hidden_params_tag = '<input type="hidden" name="search_type" id="search_type" value="search_field_tag">'
+
+      $(document).ready(function(){
+        if($('.nav-search-item.active').children().attr('id') == 'search_field_keyword'){
+          $('div.input-group').prepend(rails_text_field);
+          $('div.input-group').prepend(hidden_params_keyword);
+        }else{
+          $('div.input-group').prepend('<ul id="tag"></ul>');
+          $('#tag').tagit();
+          $('.ui-widget-content').addClass('form-control');
+          $('input.ui-widget-content').attr({
+            'name': 'search',
+            'id': 'search',
+            'placeholder': 'タグを入力して下さい'
+          });
+          $('div.input-group').prepend(hidden_params_tag);
+        }
+      });
+
+      $('.nav-search-item a').on('click', function(e){
+        e.preventDefault();
+        $(this).tab('show');
+        active_nav = $('.nav-search-item.active').children().attr('id');
+        $('#search_type').remove();
+        $('ul#tag').remove();
+        $('input#tags').remove();
+        if(active_nav == 'search_field_keyword'){
+          $('div.input-group').prepend(rails_text_field);
+          $('div.input-group').prepend(hidden_params_keyword);
+        }else{
+          $('div.input-group').prepend('<ul id="tag"></ul>');
+          $('#tag').tagit({
+            fieldName: "category_tag",
+          });
+          $('.ui-widget-content').addClass('form-control');
+          $('input.ui-widget-content').attr({
+            'name': 'search',
+            'id': 'search',
+            'placeholder': 'タグを入力して下さい'
+          });
+          $('div.input-group').prepend(hidden_params_tag);
+        }
+      })
+
+      function getAdditionPath(){
+        var pageNumber = (this.loadCount + 1) * 10;
+        active_nav = $('.nav-search-item.active').children().attr('id');
+        if(active_nav == 'search_field_keyword'){
+          return '/keyword/' + pageNumber;
+        }else{
+          return '/tag/' + pageNumber;
+        }
+      }
+
+      $('.infinite-content').infiniteScroll({
+        path: getAdditionPath,
+        append: '.card',
+        scrollThreshold: 80,
+        status: '.page-load-status',
+        history: false,
+      });
+
+
+  </script>
+  <% end %>
+

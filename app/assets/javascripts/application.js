@@ -10,22 +10,28 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery
-//= require jquery_ujs
-//= require jquery.turbolinks
+// require jquery
+// require jquery_ujs
+// require jquery.turbolinks
 //= require turbolinks
 //= require jquery.min
-//= require jquery.easing.1.3
+//= require popper.min
+// require jquery.easing.1.3
 //= require bootstrap.min
-//= require jquery.waypoints.min
-//= require jquery.stellar.min
-//= require owl.carousel.min
-//= require jquery.countTo
-//= require jquery.magnific-popup.min
-//= require magnific-popup-options
-//= require main
-//= require cable
-//= require google_map
-//= require modernizr-2.6.2.min
-//= require respond.min
-//= require static_pages
+//= require infinite-scroll.pkgd.min
+// require bootstrap-tagsinput-angular
+//= require jquery-ui
+//= require tag-it.min
+// require bootstrap-sprockets
+// require jquery.waypoints.min
+// require jquery.stellar.min
+// require owl.carousel.min
+// require jquery.countTo
+// require jquery.magnific-popup.min
+// require magnific-popup-options
+// require main
+// require cable
+// require google_map
+// require modernizr-2.6.2.min
+// require respond.min
+// require static_pages

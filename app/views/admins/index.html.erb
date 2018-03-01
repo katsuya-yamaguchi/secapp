@@ -2,8 +2,6 @@
   <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
 <% end %>
 
-<div class="fh5co-loader" style="background: url(<%= asset_path " loader.gif"%> center no-repeat #fff);"></div>
-  <div id="page">
   <div class="container">
 
     <% if user_signed_in? %>
@@ -32,7 +30,7 @@
 
       <div class='form-group'>
       <%= f.label :video_file_name %>
-      <%= f.file_field :video_file_name %>
+      <%= f.file_field :video %>
       </div>
 
       <div class='form-group'>

@@ -1,5 +1,83 @@
 class StaticPagesController < ApplicationController
+  before_action :sign_in_required, only: [:mypage]
+
+  @@search_word = String.new
+
   def index
+    @initial_video_title = []
+    initial_video_data = Video.find_by_sql(['select id, uq_video_name from videos order by updated_at desc limit 10'])
+    for i in 0..9 do
+      @initial_video_title.push(initial_video_data[i]["uq_video_name"])
+    end
+  end
+
+  def index_pagination
+    @addition_video_title = []
+    content_number = request.fullpath.split("/")[2].to_i
+    sql = 'select id, uq_video_name from videos order by updated_at desc limit 10 offset :num'
+    additioal_video_data = Video.find_by_sql([sql, {num: content_number}])
+    for i in 0..additioal_video_data.size-1 do
+      @addition_video_title.push(additioal_video_data[i]["uq_video_name"])
+    end
+    if @addition_video_title.empty? then
+      render nothing: true, status: 200
+      return
+    end
+    render layout: false
+    return
+  end
+  
+  def pagination
+    @addition_video_title = []
+    type = request.fullpath.split("/")[1].to_s
+    offset_times = request.fullpath.split("/")[2].to_i
+    if type == "keyword" then
+      sql = 'select id, uq_video_name from videos where uq_video_name like :word order by updated_at desc offset :num limit 10'
+    else
+      sql = 'select id, uq_video_name from videos where fk_groups_id = (select id from video_groups where uq_group_name like :word) order by updated_at desc offset :num limit 10'
+    end
+    @addition_video_title = Video.pagination(offset_times, sql, @@search_word)
+    if @addition_video_title.empty? then
+      render nothing: true, status: 200
+      return
+    end
+    render layout: false
+    return
+  end
+
+  def search
+    @initial_video_title = []
+    @nav_item_keyword = "active"
+    if params[:category_tag] then
+      if params[:search_type] == "search_field_keyword" then
+        sql = 'select id, uq_video_name from videos where uq_video_name like :word order by updated_at desc limit 10'
+        @nav_item_keyword = "active"
+      else
+        #sql = 'select v.id, v.uq_video_name from videos v inner join video_groups vg on v.fk_groups_id = vg.id where vg.uq_group_name like :word order by v.updated_at desc limit 10'
+        sql = 'select id, uq_video_name from videos where fk_groups_id = (select id from video_groups where uq_group_name like :word) order by updated_at desc limit 10;'
+        @nav_item_keyword = ""
+        @nav_item_tag = "active"
+      end
+      @@search_word = '%' + params[:category_tag] + '%'
+      initial_video_data = Video.find_by_sql([sql, {word: @@search_word}])
+      for i in 0..9 do
+        if initial_video_data[i].nil? then
+          break
+        end
+        @initial_video_title.push(initial_video_data[i]["uq_video_name"])
+      end
+    end
+  end
+
+  def mypage
+    @initial_video_title = []
+    @nav_item_upload = "active"
+
+    sql = 'select id, uq_video_name from videos where fk_users_id = (select id from video_groups where uq_group_name like :word) order by updated_at desc limit 10;'
+  end
+
+  def keyword_search
+    render :search
   end
 
   def riyokiyaku
@@ -62,6 +140,9 @@ class StaticPagesController < ApplicationController
       @list_video_proc.push(vd.procedure)
       @list_video_perm.push(vd.uq_video_perm)
     end
+  end
+
+  def index_test
   end
 
 end

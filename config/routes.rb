@@ -1,6 +1,14 @@
 Rails.application.routes.draw do
-  devise_for :users, skip: [:registrations]
+  devise_for :users
   root 'static_pages#index'
+  get '/page/:id', to: 'static_pages#index_pagination'
+
+  get '/search', to: 'static_pages#search'
+  get '/keyword/:id', to: 'static_pages#pagination'
+  get '/tag/:id', to: 'static_pages#pagination'
+
+  get '/mypage', to: 'static_pages#mypage'
+  get '/mypage/history/:id', to: 'static_pages#pagination'
 
   get '/riyokiyaku', to: 'static_pages#riyokiyaku'
   get '/courses', to: 'static_pages#courses'
