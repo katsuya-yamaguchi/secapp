@@ -23,13 +23,13 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top nav-top">
-      <a class="navbar-brand col-4 offset-4 text-center" href="#">SHIROBUHI</a>
-      <% if user_signed_in? then%>
-        <%= link_to "Logout", destroy_user_session_path, class: "navbar-brand col-4 offset-8 text-center" %>
-      <% else %>
-        <%= link_to "Login", new_user_session_path, class: "navbar-brand col-4 text-center" %>
-      <% end %>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top nav-top justify-content-between">
+      <a class="navbar-brand text-center" href="#">SHIROBUHI</a>
+        <% if user_signed_in? then%>
+            <%= link_to "Logout - #{current_user.email}", destroy_user_session_path, class: "nav-link ml-auto btn btn-outline-light" %>
+        <% else %>
+          <%= link_to "Login", new_user_session_path, class: "nav-link ml-auto btn btn-outline-light" %>
+        <% end %>
     </nav>
 
     <%= yield %>
