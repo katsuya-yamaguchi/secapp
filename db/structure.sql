@@ -170,15 +170,14 @@ ALTER SEQUENCE video_groups_id_seq OWNED BY video_groups.id;
 
 CREATE TABLE videos (
     id bigint NOT NULL,
-    video_time time without time zone NOT NULL,
-    uq_video_name character varying(255),
+    video_name character varying(255),
     delete_flag integer DEFAULT 0 NOT NULL,
     num_play bigint DEFAULT 0 NOT NULL,
     video_file_name character varying(255),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    uq_video_perm character varying(255) NOT NULL,
-    fk_users_id bigint NOT NULL
+    fk_users_id bigint NOT NULL,
+    description text
 );
 
 
@@ -313,27 +312,6 @@ CREATE UNIQUE INDEX index_video_groups_on_uq_group_name ON video_groups USING bt
 
 
 --
--- Name: index_videos_on_uq_video_name; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_videos_on_uq_video_name ON videos USING btree (uq_video_name);
-
-
---
--- Name: index_videos_on_uq_video_perm; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_videos_on_uq_video_perm ON videos USING btree (uq_video_perm);
-
-
---
--- Name: index_videos_on_video_file_name; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_videos_on_video_file_name ON videos USING btree (video_file_name);
-
-
---
 -- Name: group_maps fk_rails_08584c8dbc; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -377,6 +355,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180305210712'),
 ('20180305211013'),
 ('20180305211413'),
-('20180305212406');
+('20180305212406'),
+('20180311210432'),
+('20180315115307');
 
 

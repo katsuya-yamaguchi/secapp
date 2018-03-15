@@ -5,19 +5,19 @@ class StaticPagesController < ApplicationController
 
   def index
     @initial_video_title = []
-    initial_video_data = Video.find_by_sql(['select id, uq_video_name from videos order by updated_at desc limit 10'])
+    initial_video_data = Video.find_by_sql(['select id, video_name from videos order by updated_at desc limit 10'])
     for i in 0..9 do
-      @initial_video_title.push(initial_video_data[i]["uq_video_name"])
+      @initial_video_title.push(initial_video_data[i]["video_name"])
     end
   end
 
   def index_pagination
     @addition_video_title = []
     content_number = request.fullpath.split("/")[2].to_i
-    sql = 'select id, uq_video_name from videos order by updated_at desc limit 10 offset :num'
+    sql = 'select id, video_name from videos order by updated_at desc limit 10 offset :num'
     additioal_video_data = Video.find_by_sql([sql, {num: content_number}])
     for i in 0..additioal_video_data.size-1 do
-      @addition_video_title.push(additioal_video_data[i]["uq_video_name"])
+      @addition_video_title.push(additioal_video_data[i]["video_name"])
     end
     if @addition_video_title.empty? then
       render nothing: true, status: 200
@@ -32,9 +32,9 @@ class StaticPagesController < ApplicationController
     type = request.fullpath.split("/")[1].to_s
     offset_times = request.fullpath.split("/")[2].to_i
     if type == "keyword" then
-      sql = 'select id, uq_video_name from videos where uq_video_name like :word order by updated_at desc offset :num limit 10'
+      sql = 'select id, video_name from videos where video_name like :word order by updated_at desc offset :num limit 10'
     else
-      sql = 'select id, uq_video_name from videos where fk_groups_id = (select id from video_groups where uq_group_name like :word) order by updated_at desc offset :num limit 10'
+      sql = 'select id, video_name from videos where fk_groups_id = (select id from video_groups where uq_group_name like :word) order by updated_at desc offset :num limit 10'
     end
     @addition_video_title = Video.pagination(offset_times, sql, @@search_word)
     if @addition_video_title.empty? then
@@ -50,11 +50,11 @@ class StaticPagesController < ApplicationController
     @nav_item_keyword = "active"
     if params[:category_tag] then
       if params[:search_type] == "search_field_keyword" then
-        sql = 'select id, uq_video_name from videos where uq_video_name like :word order by updated_at desc limit 10'
+        sql = 'select id, video_name from videos where video_name like :word order by updated_at desc limit 10'
         @nav_item_keyword = "active"
       else
-        #sql = 'select v.id, v.uq_video_name from videos v inner join video_groups vg on v.fk_groups_id = vg.id where vg.uq_group_name like :word order by v.updated_at desc limit 10'
-        sql = 'select id, uq_video_name from videos where fk_groups_id = (select id from video_groups where uq_group_name like :word) order by updated_at desc limit 10;'
+        #sql = 'select v.id, v.video_name from videos v inner join video_groups vg on v.fk_groups_id = vg.id where vg.uq_group_name like :word order by v.updated_at desc limit 10'
+        sql = 'select id, video_name from videos where fk_groups_id = (select id from video_groups where uq_group_name like :word) order by updated_at desc limit 10;'
         @nav_item_keyword = ""
         @nav_item_tag = "active"
       end
@@ -64,7 +64,7 @@ class StaticPagesController < ApplicationController
         if initial_video_data[i].nil? then
           break
         end
-        @initial_video_title.push(initial_video_data[i]["uq_video_name"])
+        @initial_video_title.push(initial_video_data[i]["video_name"])
       end
     end
   end
@@ -73,11 +73,28 @@ class StaticPagesController < ApplicationController
     @initial_video_title = []
     @nav_item_upload = "active"
 
-    sql = 'select id, uq_video_name from videos where fk_users_id = (select id from video_groups where uq_group_name like :word) order by updated_at desc limit 10;'
+    if !user_signed_in?
+      redirect_to root_path
+    end
+    @video = Video.new
+    p current_user
   end
 
-  def keyword_search
-    render :search
+  def file_upload
+    @video = Video.new(file_params)
+    tag = params[:category_tag].split(",")
+    @video.save_tags(tag)
+    @video.attributes = { fk_users_id: current_user.id, created_at: Time.new, updated_at: Time.new }
+    if @video.save
+      redirect_to :mypage
+    else
+      @video.errors.full_messages
+      render :mypage
+    end
+  end
+
+  def file_params
+   params.require(:video).permit(:video_name, :video_file_name, :description)
   end
 
   def riyokiyaku
@@ -117,7 +134,7 @@ class StaticPagesController < ApplicationController
     @video_perm = []
     Video.where(fk_groups_id: use_group_name_to_id).find_each do |vd|
       @video_id.push(vd.id)
-      @video_name.push(vd.uq_video_name)
+      @video_name.push(vd.video_name)
       @video_time.push(vd.video_time.strftime("%H:%M:%S"))
       @video_perm.push(vd.uq_video_perm)
     end
@@ -131,9 +148,9 @@ class StaticPagesController < ApplicationController
     @list_video_perm = []
     @request_group_perm = request.fullpath.split("/")[2]
     @request_video_perm = request.fullpath.split("/")[4]
-    @active_video_item = Video.select("fk_groups_id, video_file_name, description, procedure, uq_video_name").where(uq_video_perm: @request_video_perm)[0].attributes
-    Video.select("id, uq_video_name, video_file_name, description, procedure, uq_video_perm").where(fk_groups_id: @active_video_item["fk_groups_id"]).where.not(uq_video_name: @active_video_item["uq_video_name"]).order("id").find_each do |vd|
-      @list_video_name.push(vd.uq_video_name)
+    @active_video_item = Video.select("fk_groups_id, video_file_name, description, procedure, video_name").where(uq_video_perm: @request_video_perm)[0].attributes
+    Video.select("id, video_name, video_file_name, description, procedure, uq_video_perm").where(fk_groups_id: @active_video_item["fk_groups_id"]).where.not(video_name: @active_video_item["video_name"]).order("id").find_each do |vd|
+      @list_video_name.push(vd.video_name)
       @list_video_file.push(vd.video_file_name.to_param.split("/")[3])
       pp vd.video_file_name.to_param.split("/")[3]
       @list_video_desc.push(vd.description)
