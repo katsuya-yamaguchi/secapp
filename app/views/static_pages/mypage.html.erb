@@ -1,8 +1,8 @@
   <div class="container">
 
     <ul class="nav nav-tabs justify-content-center nav-fill mt-2" role="tablist">
-      <li class="nav-item nav-search-item <%= @nav_item_upload %>"><a href="#content-upload" class="nav-link" id="search_field_upload" aria-selected="false" role="tab" data-toggle="tab">アップロード</a></li>
-      <li class="nav-item nav-search-item <%= @nav_item_history %>"><a href="#content-history" class="nav-link" id="search_field_history" aria-selected="false" role="tab" data-toggle="tab">履歴</a></li>
+      <li class="nav-item nav-search-item <%= @nav_item_upload %>"><a href="#content-upload" class="nav-link" id="nav_field_upload" aria-selected="false" role="tab" data-toggle="tab">アップロード</a></li>
+      <li class="nav-item nav-search-item <%= @nav_item_history %>"><a href="#content-history" class="nav-link" id="nav_field_history" aria-selected="false" role="tab" data-toggle="tab">履歴</a></li>
     </ul>
 
     <div class="tab-content">
@@ -26,6 +26,7 @@
           <div class="form-group mb-3" id="form-file">
             <label class="col-form-label">ビデオ</label></br>
             <%= f.file_field :video_file_name %>
+            <p><%= flash[:upload_status] %></p>
           </div>
           <div class="form-group mb-3">
             <button type="submit" class="btn btn-primary">Up load</button>
@@ -63,30 +64,8 @@
       $(document).ready(function(){
         $('#tag').tagit({
           fieldName: "category_tag",
+          singleField: true
         });
-        /*
-        if($('.nav-search-item.active').children().attr('id') == 'search_field_keyword'){
-          $('div.input-group').prepend(rails_text_field);
-          $('div.input-group').prepend(hidden_params_keyword);
-        }else{
-          $('div.input-group').prepend('<ul id="tag"></ul>');
-          $('#tag').tagit();
-          $('.ui-widget-content').addClass('form-control');
-          $('input.ui-widget-content').attr({
-            'name': 'search',
-            'id': 'search',
-            'placeholder': 'タグを入力して下さい'
-          });
-          $('div.input-group').prepend(hidden_params_tag);
-        }
-        */
-      });
-      $('form').on('change', 'input[type=file]', function(){
-        var file = this.files[0];
-        console.log(file)
-        var video = document.createElement('video');
-        var fileObject = URL.createObjectURL(file);
-        video.src = fileObject;
       });
 
       $('.nav-search-item a').on('click', function(e){
