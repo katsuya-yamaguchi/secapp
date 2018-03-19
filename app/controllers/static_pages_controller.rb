@@ -53,7 +53,6 @@ class StaticPagesController < ApplicationController
         sql = 'select id, video_name from videos where video_name like :word order by updated_at desc limit 10'
         @nav_item_keyword = "active"
       else
-        #sql = 'select v.id, v.video_name from videos v inner join video_groups vg on v.fk_groups_id = vg.id where vg.uq_group_name like :word order by v.updated_at desc limit 10'
         sql = 'select id, video_name from videos where fk_groups_id = (select id from video_groups where uq_group_name like :word) order by updated_at desc limit 10;'
         @nav_item_keyword = ""
         @nav_item_tag = "active"
@@ -72,23 +71,24 @@ class StaticPagesController < ApplicationController
   def mypage
     @initial_video_title = []
     @nav_item_upload = "active"
+    p flash
 
     if !user_signed_in?
       redirect_to root_path
     end
     @video = Video.new
-    p current_user
   end
 
   def file_upload
     @video = Video.new(file_params)
     tag = params[:category_tag].split(",")
-    @video.save_tags(tag)
     @video.attributes = { fk_users_id: current_user.id, created_at: Time.new, updated_at: Time.new }
     if @video.save
       redirect_to :mypage
+      @video.save_tags(tag)
+      flash[:upload_status] = "アップロードが成功しました。"
     else
-      @video.errors.full_messages
+      flash[:upload_status] = "アップロードが失敗しました。"
       render :mypage
     end
   end
