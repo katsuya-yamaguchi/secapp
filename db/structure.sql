@@ -52,8 +52,8 @@ CREATE TABLE ar_internal_metadata (
 
 CREATE TABLE group_maps (
     id bigint NOT NULL,
-    fk_video_groups_id bigint,
-    fk_videos_id bigint,
+    video_group_id bigint,
+    video_id bigint,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -316,7 +316,7 @@ CREATE UNIQUE INDEX index_video_groups_on_uq_group_name ON video_groups USING bt
 --
 
 ALTER TABLE ONLY group_maps
-    ADD CONSTRAINT fk_rails_08584c8dbc FOREIGN KEY (fk_videos_id) REFERENCES videos(id);
+    ADD CONSTRAINT fk_rails_08584c8dbc FOREIGN KEY (video_id) REFERENCES videos(id);
 
 
 --
@@ -324,7 +324,7 @@ ALTER TABLE ONLY group_maps
 --
 
 ALTER TABLE ONLY group_maps
-    ADD CONSTRAINT fk_rails_7f3838f0a0 FOREIGN KEY (fk_video_groups_id) REFERENCES video_groups(id);
+    ADD CONSTRAINT fk_rails_7f3838f0a0 FOREIGN KEY (video_group_id) REFERENCES video_groups(id);
 
 
 --

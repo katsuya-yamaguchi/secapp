@@ -1,12 +1,11 @@
 class Video < ApplicationRecord
-  has_many :group_map
-  has_many :video_group, through: :group_map
+  has_many :group_maps, class_name: "GroupMap"
+  has_many :video_groups, class_name: "VideoGroup", through: :group_maps
   mount_uploader :video_file_name, VideoUploader
   
-  VALID_TIME_REGEX = /[0123456789]{2}:[0123456789]{2}:[0123456789]{2}/
   VALID_VIDEO_REGEX = /.*\.mp4/
   validates :video_file_name, presence: true, format: {with: VALID_VIDEO_REGEX}
-  validates :video_name, presence: true, uniqueness: true
+  validates :video_name, presence: true
 
 
   def self.pagination(offset_times, sql, search_word)
@@ -19,13 +18,12 @@ class Video < ApplicationRecord
   end
 
   def save_tags(tags)
-    current_tags = self.video_group.pluck(:uq_group_name)
+    current_tags = VideoGroup.pluck(:uq_group_name)
     new_tags = tags - current_tags
 
     unless new_tags.empty?
       new_tags.each do |new_name|
-        video_group = VideoGroup.new(uq_group_name: new_name, created_at: Time.new, updated_at: Time.new)
-        #video_group.attributes = { uq_group_name: new_name, created_at: Time.new, updated_at: Time.new}
+        video_group = self.video_groups.new(uq_group_name: new_name, created_at: Time.new, updated_at: Time.new)
         if video_group.save
         else
           @error_msg = video_group.errors.full_messages
