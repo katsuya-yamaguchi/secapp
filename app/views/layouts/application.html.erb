@@ -34,15 +34,25 @@
 
     <%= yield %>
 
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-bottom text-center nav-bottom">
-      <a class="nav-item nav-link col-4 disabled" href="/" style="font-size: 2rem;"><i class="fa fa-home"></i></a>
-      <a class="nav-item nav-link col-4" href="/search" style="font-size: 2rem;"><i class="fa fa-search"></i></a>
-      <a class="nav-item nav-link col-4" href="/mypage" style="font-size: 2rem;"><i class="fa fa-user"></i></a>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-bottom text-center nav-bottom menu-bar">
+      <a class="nav-item nav-link col-4 menu-bar-item" id="item-home" href="/" style="font-size: 2rem;"><i class="fa fa-home"></i></a>
+      <a class="nav-item nav-link col-4 menu-bar-item" id="item-search" href="/search" style="font-size: 2rem;"><i class="fa fa-search"></i></a>
+      <a class="nav-item nav-link col-4 menu-bar-item" id="item-mypage" href="/mypage" style="font-size: 2rem;"><i class="fa fa-user"></i></a>
     </nav>
 
     <%= javascript_include_tag "application", 'data-turbolinks-track': "reload" %>
     <%= yield :index_pagination %>
     <%= yield :search_pagination %>
+
+    <script>
+      $(function(){
+        let current_path = location.pathname.split('/')[1];
+        if(current_path === ''){
+          current_path = 'home';
+        }
+        $(`#item-${current_path}`).addClass('disabled');
+      });
+    </script>
 
   </body>
 </html>
