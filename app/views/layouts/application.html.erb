@@ -47,7 +47,7 @@
     <script>
       $(function(){
         let current_path = location.pathname.split('/')[1];
-        if(current_path === ''){
+        if(current_path !== 'search' && current_path !== 'mypage'){
           current_path = 'home';
         }
         $(`#item-${current_path}`).addClass('disabled');
