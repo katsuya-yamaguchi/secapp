@@ -1,0 +1,12 @@
+<% for num in 0..@addition_video_title.size-1 do %>
+  <div class="card">
+    <img class="card-img-top img-fluid" src="<%= asset_path "img_bg_top.jpg" %>" alt="" style="height: 20rem;"></video>
+    <div class="card-body">
+      <h4 class="card-title"><%= @addition_video_title[num] %></h4>
+      <i class="fa fa-thumbs-up" style="font-size: 1.5rem;">
+      <span class="badge badge-pill badge-secondary" id="good-num">100</span>
+      </i>
+    </div>
+  </div>
+<% end %>
+

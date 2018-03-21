@@ -37,17 +37,17 @@
       <div id="content-history" class="tab-pane" role="tabpanel">
         <div class="content">
           <div class="col-12 mx-auto my-1 infinite-content">
-          <!-- for num in 0..@initial_video_title.size-1 do -->
+          <% for num in 0..@initial_video_title.size-1 do %>
             <div class="card">
               <img class="card-img-top img-fluid" src="<%= asset_path "img_bg_top.jpg" %>" alt="" style="height: 20rem;">
               <div class="card-body">
-                <h4 class="card-title"><!--= @initial_video_title[num] --></h4>
+                <h4 class="card-title"><%= @initial_video_title[num] %></h4>
                 <i class="fa fa-thumbs-up" style="font-size: 1.5rem;">
                   <span class="badge badge-pill badge-secondary" id="good-num">100</span>
                 </i>
               </div>
             </div>
-          <!--% end %-->
+          <% end %>
           </div>
         </div>
       </div>
@@ -66,6 +66,10 @@
           fieldName: "category_tag",
           singleField: true
         });
+      });
+
+      $('.form-group button').on('click', function(e){
+        $(this).addClass('disabled');
       });
 
       $('.nav-search-item a').on('click', function(e){
@@ -100,7 +104,7 @@
 
       function getAdditionPath(){
         var pageNumber = (this.loadCount + 1) * 10;
-        return '/mypage/history/' + pageNumber;
+        return '/mypage/' + pageNumber;
       }
 
       $('.infinite-content').infiniteScroll({

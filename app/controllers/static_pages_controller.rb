@@ -71,12 +71,34 @@ class StaticPagesController < ApplicationController
   def mypage
     @initial_video_title = []
     @nav_item_upload = "active"
-    p flash
 
     if !user_signed_in?
       redirect_to root_path
     end
     @video = Video.new
+
+    @initial_video_title = []
+    initial_video_data = Video.find_by_sql(['select id, video_name from videos where fk_users_id = :users_id order by updated_at desc limit 10', {users_id: current_user.id}])
+    for i in 0..9 do
+      @initial_video_title.push(initial_video_data[i]["video_name"])
+    end
+  end
+
+  def mypage_pagination
+    @addition_video_title = []
+    content_number = request.fullpath.split("/")[2].to_i
+    sql = 'select id, video_name from videos where fk_users_id = :users_id order by updated_at desc limit 10 offset :num'
+    p current_user.id
+    additioal_video_data = Video.find_by_sql([sql, {users_id: current_user.id, num: content_number}])
+    for i in 0..additioal_video_data.size-1 do
+      @addition_video_title.push(additioal_video_data[i]["video_name"])
+    end
+    if @addition_video_title.empty? then
+      render nothing: true, status: 200
+      return
+    end
+    render layout: false
+    return
   end
 
   def file_upload

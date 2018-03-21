@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   get '/mypage', to: 'static_pages#mypage'
   post '/mypage', to: 'static_pages#file_upload'
-  get '/mypage/history/:id', to: 'static_pages#pagination'
+  get '/mypage/:id', to: 'static_pages#mypage_pagination'
 
   get '/riyokiyaku', to: 'static_pages#riyokiyaku'
   get '/courses', to: 'static_pages#courses'
