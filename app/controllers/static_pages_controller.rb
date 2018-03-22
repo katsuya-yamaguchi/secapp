@@ -5,8 +5,10 @@ class StaticPagesController < ApplicationController
 
   def index
     @initial_video_title = []
+    @initial_video_id = []
     initial_video_data = Video.find_by_sql(['select id, video_name from videos order by updated_at desc limit 10'])
     for i in 0..9 do
+      @initial_video_id.push(initial_video_data[i]["id"])
       @initial_video_title.push(initial_video_data[i]["video_name"])
     end
   end
@@ -53,7 +55,8 @@ class StaticPagesController < ApplicationController
         sql = 'select id, video_name from videos where video_name like :word order by updated_at desc limit 10'
         @nav_item_keyword = "active"
       else
-        sql = 'select id, video_name from videos where fk_groups_id = (select id from video_groups where uq_group_name like :word) order by updated_at desc limit 10;'
+        # select video_id from group_maps gm inner join video_groups vg on gm.video_group_id = vg.id inner join videos vd on gm.video_id = vd.id where gm.video_group_id = (select id from video_groups where uq_group_name like :word);
+        sql = 'select id, video_name from videos where id = (select id from video_groups where uq_group_name like :word) order by updated_at desc limit 10;'
         @nav_item_keyword = ""
         @nav_item_tag = "active"
       end
@@ -88,7 +91,6 @@ class StaticPagesController < ApplicationController
     @addition_video_title = []
     content_number = request.fullpath.split("/")[2].to_i
     sql = 'select id, video_name from videos where fk_users_id = :users_id order by updated_at desc limit 10 offset :num'
-    p current_user.id
     additioal_video_data = Video.find_by_sql([sql, {users_id: current_user.id, num: content_number}])
     for i in 0..additioal_video_data.size-1 do
       @addition_video_title.push(additioal_video_data[i]["video_name"])
@@ -99,6 +101,16 @@ class StaticPagesController < ApplicationController
     end
     render layout: false
     return
+  end
+
+  def video
+    @m3u8 = ""
+    video_id = request.fullpath.split("/")[2].to_i
+    sql = "select video_name, video_file_name, description from videos where id = :num;"
+    video_data = Video.find_by_sql([sql, {num: video_id}])
+    @name = video_data[0]["video_name"]
+    @m3u8 = video_data[0]["video_file_name"].split(".")[0] << ".m3u8"
+    @description = video_data[0]["description"]
   end
 
   def file_upload
