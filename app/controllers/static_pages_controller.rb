@@ -36,7 +36,7 @@ class StaticPagesController < ApplicationController
     if type == "keyword" then
       sql = 'select id, video_name from videos where video_name like :word order by updated_at desc offset :num limit 10'
     else
-      sql = 'select id, video_name from videos where fk_groups_id = (select id from video_groups where uq_group_name like :word) order by updated_at desc offset :num limit 10'
+      sql = 'select video_name from videos vd inner join group_maps gm on vd.id = gm.video_id inner join video_groups vg on gm.video_group_id = vg.id where vg.uq_group_name like :word order by updated_at desc limit 10;'
     end
     @addition_video_title = Video.pagination(offset_times, sql, @@search_word)
     if @addition_video_title.empty? then
@@ -55,8 +55,7 @@ class StaticPagesController < ApplicationController
         sql = 'select id, video_name from videos where video_name like :word order by updated_at desc limit 10'
         @nav_item_keyword = "active"
       else
-        # select video_id from group_maps gm inner join video_groups vg on gm.video_group_id = vg.id inner join videos vd on gm.video_id = vd.id where gm.video_group_id = (select id from video_groups where uq_group_name like :word);
-        sql = 'select id, video_name from videos where id = (select id from video_groups where uq_group_name like :word) order by updated_at desc limit 10;'
+        sql = 'select video_name from videos vd inner join group_maps gm on vd.id = gm.video_id inner join video_groups vg on gm.video_group_id = vg.id where vg.uq_group_name like :word order by updated_at desc limit 10;'
         @nav_item_keyword = ""
         @nav_item_tag = "active"
       end
