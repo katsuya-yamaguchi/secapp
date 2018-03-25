@@ -31,15 +31,18 @@ class StaticPagesController < ApplicationController
   
   def pagination
     @addition_video_title = []
+    @addition_video_id = []
     type = request.fullpath.split("/")[1].to_s
     offset_times = request.fullpath.split("/")[2].to_i
     if type == "keyword" then
       sql = 'select id, video_name from videos where video_name like :word order by updated_at desc offset :num limit 10'
     else
-      sql = 'select video_name from videos vd inner join group_maps gm on vd.id = gm.video_id inner join video_groups vg on gm.video_group_id = vg.id where vg.uq_group_name like :word order by updated_at desc limit 10;'
+      sql = 'select distinct vd.id, vd.video_name from videos vd inner join group_maps gm on vd.id = gm.video_id inner join video_groups vg on gm.video_group_id = vg.id where vg.uq_group_name like :word order by vd.updated_at desc offset :num limit 10'
     end
-    @addition_video_title = Video.pagination(offset_times, sql, @@search_word)
-    if @addition_video_title.empty? then
+    addition_data = Video.pagination(offset_times, sql, @@search_word)
+    @addition_video_id = addition_data[0]
+    @addition_video_title = addition_data[1]
+    if @addition_video_title.nil? then
       render nothing: true, status: 200
       return
     end
@@ -49,13 +52,14 @@ class StaticPagesController < ApplicationController
 
   def search
     @initial_video_title = []
+    @initial_video_id = []
     @nav_item_keyword = "active"
     if params[:category_tag] then
       if params[:search_type] == "search_field_keyword" then
         sql = 'select id, video_name from videos where video_name like :word order by updated_at desc limit 10'
         @nav_item_keyword = "active"
       else
-        sql = 'select video_name from videos vd inner join group_maps gm on vd.id = gm.video_id inner join video_groups vg on gm.video_group_id = vg.id where vg.uq_group_name like :word order by updated_at desc limit 10;'
+        sql = 'select distinct vd.id, vd.video_name, vd.updated_at from videos vd inner join group_maps gm on vd.id = gm.video_id inner join video_groups vg on gm.video_group_id = vg.id where vg.uq_group_name like :word order by vd.updated_at desc limit 10'
         @nav_item_keyword = ""
         @nav_item_tag = "active"
       end
@@ -65,6 +69,7 @@ class StaticPagesController < ApplicationController
         if initial_video_data[i].nil? then
           break
         end
+        @initial_video_id.push(initial_video_data[i]["id"])
         @initial_video_title.push(initial_video_data[i]["video_name"])
       end
     end

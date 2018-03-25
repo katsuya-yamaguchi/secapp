@@ -9,12 +9,17 @@ class Video < ApplicationRecord
 
 
   def self.pagination(offset_times, sql, search_word)
+    addition_video_id = []
     addition_video_title = []
     addition_video_data = Video.find_by_sql([sql, {num: offset_times, word: search_word}])
     for i in 0..addition_video_data.size-1 do
-      addition_video_title.push(addition_video_data[i]["uq_video_name"])
+      if addition_video_data[i].nil? then
+        break
+      end
+      addition_video_id.push(addition_video_data[i]["id"])
+      addition_video_title.push(addition_video_data[i]["video_name"])
     end
-    return addition_video_title
+    return addition_video_id, addition_video_title
   end
 
   def save_tags(tags)
