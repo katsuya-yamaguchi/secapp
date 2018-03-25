@@ -13,7 +13,7 @@
           <%= form_for(@video, url: mypage_path, html: {class: 'mt-2'}) do |f| %>
           <div class="form-group mb-3">
             <label class="col-form-label">タイトル</label>
-            <%= f.text_field :video_name, class: "form-control", placeholder: "キーワードを入力して下さい" %>
+            <%= f.text_field :video_name, class: "form-control", placeholder: "タイトルを入力して下さい" %>
           </div>
           <div class="form-group mb-3">
             <label class="col-form-label">説明</label>
@@ -23,9 +23,9 @@
             <label class="col-form-label">タグ</label>
             <ul id='tag'></ul>
           </div>
-          <div class="form-group mb-3" id="form-file">
-            <label class="col-form-label">ビデオ</label></br>
-            <%= f.file_field :video_file_name %>
+          <div class="mb-3 custom-file">
+            <%= f.file_field :video_file_name, class: "custom-file-input" %>
+            <label class="col-form-label custom-file-label" style="white-space: nowrap; overflow: hidden;">ファイルを選択して下さい...</label>
             <p><%= flash[:upload_status] %></p>
           </div>
           <div class="form-group mb-3">
@@ -66,6 +66,10 @@
           fieldName: "category_tag",
           singleField: true
         });
+      });
+
+      $('.custom-file-input').on('change', function(e){
+        $(this).next('.custom-file-label').html($(this)[0].files[0].name);
       });
 
       $('.form-group button').on('click', function(e){

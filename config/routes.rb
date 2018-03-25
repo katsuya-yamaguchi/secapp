@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   post '/mypage', to: 'static_pages#file_upload'
   get '/mypage/:id', to: 'static_pages#mypage_pagination'
 
+  get '/video/:id', to: 'static_pages#video'
+
   get '/riyokiyaku', to: 'static_pages#riyokiyaku'
   get '/courses', to: 'static_pages#courses'
   get '/courses/:id', to: 'static_pages#list_courses'

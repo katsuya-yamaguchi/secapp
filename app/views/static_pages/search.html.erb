@@ -19,7 +19,9 @@
           <div class="col-12 mx-auto my-1 infinite-content">
           <% for num in 0..@initial_video_title.size-1 do %>
             <div class="card">
+              <a href="/video/<%= @initial_video_id[num] %>">
               <img class="card-img-top img-fluid" src="<%= asset_path "img_bg_top.jpg" %>" alt="" style="height: 20rem;">
+              </a>
               <div class="card-body">
                 <h4 class="card-title"><%= @initial_video_title[num] %></h4>
                 <i class="fa fa-thumbs-up" style="font-size: 1.5rem;">
@@ -36,7 +38,9 @@
           <div class="col-12 mx-auto my-1 infinite-content">
           <% for num in 0..@initial_video_title.size-1 do %>
             <div class="card">
+              <a href="/video/<%= @initial_video_id[num] %>">
               <img class="card-img-top img-fluid" src="<%= asset_path "img_bg_top.jpg" %>" alt="" style="height: 20rem;">
+              </a>
               <div class="card-body">
                 <h4 class="card-title"><%= @initial_video_title[num] %></h4>
                 <i class="fa fa-thumbs-up" style="font-size: 1.5rem;">
@@ -54,7 +58,7 @@
 <%= content_for :search_pagination do %>
     <script>
       var active_nav = 'search_field_keyword'
-      var rails_text_field = '<%= text_field_tag :tags, "", class: "form-control", placeholder: "キーワードを入力して下さい" %>' 
+      var rails_text_field = '<%= text_field_tag :tags, "", class: "form-control", name: "category_tag", placeholder: "キーワードを入力して下さい" %>' 
       var hidden_params_keyword = '<input type="hidden" name="search_type" id="search_type" value="search_field_keyword">'
       var hidden_params_tag = '<input type="hidden" name="search_type" id="search_type" value="search_field_tag">'
 
