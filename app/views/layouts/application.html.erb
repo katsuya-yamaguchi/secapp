@@ -28,7 +28,7 @@
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top nav-top justify-content-between">
       <a class="navbar-brand text-center" href="#">SHIROBUHI</a>
         <% if user_signed_in? then%>
-            <%= link_to "Logout - #{current_user.email.split("@")[1]}", destroy_user_session_path, class: "nav-link ml-auto btn btn-outline-light", style: "font-size: 0.5rem" %>
+            <%= link_to "Logout - #{@current_user_name}", destroy_user_session_path, class: "nav-link ml-auto btn btn-outline-light", style: "font-size: 0.5rem" %>
         <% else %>
           <%= link_to "Login", new_user_session_path, class: "nav-link ml-auto btn btn-outline-light", style: "font-size: 0.5rem" %>
         <% end %>
