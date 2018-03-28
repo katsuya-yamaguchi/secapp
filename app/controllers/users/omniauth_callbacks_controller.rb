@@ -5,6 +5,16 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   # You should also create an action method in this controller like this:
   # def twitter
   # end
+  def twitter
+    @user = User.get_from_omniauth(request.env["omniauth.auth"].except("extra"))
+    if @user.persisted?
+      flash.notice = "Twitterでログインしました。"
+      sign_in_and_redirect @user
+    else
+      session["devise.user_attributes"] = @user.attributes
+      redirect_to new_user_registration_url
+    end
+  end
 
   # More info at:
   # https://github.com/plataformatec/devise#omniauth

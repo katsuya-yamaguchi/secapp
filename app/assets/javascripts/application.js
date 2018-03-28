@@ -15,6 +15,7 @@
 // require jquery.turbolinks
 //= require turbolinks
 //= require jquery.min
+//= require jquery_ujs
 //= require popper.min
 // require jquery.easing.1.3
 //= require bootstrap.min

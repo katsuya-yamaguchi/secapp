@@ -109,7 +109,11 @@ CREATE TABLE users (
     unconfirmed_email character varying,
     failed_attempts integer DEFAULT 0 NOT NULL,
     unlock_token character varying,
-    locked_at timestamp without time zone
+    locked_at timestamp without time zone,
+    provider character varying,
+    uid character varying,
+    username character varying DEFAULT 'anoymous'::character varying,
+    deleted_at timestamp without time zone
 );
 
 
@@ -284,13 +288,6 @@ CREATE UNIQUE INDEX index_users_on_confirmation_token ON users USING btree (conf
 
 
 --
--- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
-
-
---
 -- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -357,6 +354,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180305211413'),
 ('20180305212406'),
 ('20180311210432'),
-('20180315115307');
+('20180315115307'),
+('20180325194417'),
+('20180327212457'),
+('20180328204740');
 
 

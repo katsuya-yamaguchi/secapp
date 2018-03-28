@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: {:omniauth_callbacks => "users/omniauth_callbacks", :registrations => "users/registrations"}
   root 'static_pages#index'
   get '/page/:id', to: 'static_pages#index_pagination'
 
