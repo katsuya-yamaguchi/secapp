@@ -13,6 +13,10 @@ Rails.application.routes.draw do
 
   get '/video/:id', to: 'static_pages#video'
 
+  resources :videos do
+    resources :likes, only: [:create, :destroy]
+  end
+
   get '/riyokiyaku', to: 'static_pages#riyokiyaku'
   get '/courses', to: 'static_pages#courses'
   get '/courses/:id', to: 'static_pages#list_courses'

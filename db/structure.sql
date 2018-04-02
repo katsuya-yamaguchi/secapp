@@ -79,6 +79,38 @@ ALTER SEQUENCE group_maps_id_seq OWNED BY group_maps.id;
 
 
 --
+-- Name: likes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE likes (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    video_id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: likes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE likes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: likes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE likes_id_seq OWNED BY likes.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -212,6 +244,13 @@ ALTER TABLE ONLY group_maps ALTER COLUMN id SET DEFAULT nextval('group_maps_id_s
 
 
 --
+-- Name: likes id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY likes ALTER COLUMN id SET DEFAULT nextval('likes_id_seq'::regclass);
+
+
+--
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -246,6 +285,14 @@ ALTER TABLE ONLY ar_internal_metadata
 
 ALTER TABLE ONLY group_maps
     ADD CONSTRAINT group_maps_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: likes likes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY likes
+    ADD CONSTRAINT likes_pkey PRIMARY KEY (id);
 
 
 --
@@ -317,11 +364,27 @@ ALTER TABLE ONLY group_maps
 
 
 --
+-- Name: likes fk_rails_1e09b5dabf; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY likes
+    ADD CONSTRAINT fk_rails_1e09b5dabf FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
 -- Name: group_maps fk_rails_7f3838f0a0; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY group_maps
     ADD CONSTRAINT fk_rails_7f3838f0a0 FOREIGN KEY (video_group_id) REFERENCES video_groups(id);
+
+
+--
+-- Name: likes fk_rails_abaf7be654; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY likes
+    ADD CONSTRAINT fk_rails_abaf7be654 FOREIGN KEY (video_id) REFERENCES videos(id);
 
 
 --
@@ -357,6 +420,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180315115307'),
 ('20180325194417'),
 ('20180327212457'),
-('20180328204740');
+('20180328204740'),
+('20180329120042');
 
 

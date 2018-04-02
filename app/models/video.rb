@@ -1,5 +1,6 @@
 class Video < ApplicationRecord
   has_many :group_maps, class_name: "GroupMap"
+  has_many :likes, class_name: "Like", dependent: :destroy
   has_many :video_groups, class_name: "VideoGroup", through: :group_maps
   mount_uploader :video_file_name, VideoUploader
   
@@ -35,6 +36,14 @@ class Video < ApplicationRecord
         end
       end
     end
+  end
+
+  def like_by(user_id)
+    likes.find_by(user_id: user_id)
+  end
+
+  def get_likes_number(video_id)
+    likes.where(video_id: video_id).size
   end
 
 end

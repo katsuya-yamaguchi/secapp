@@ -4,6 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :confirmable, :lockable, :timeoutable, :omniauthable, omniauth_providers: [:twitter]
+  has_many :likes, class_name: "Like", dependent: :destroy
   #carriewave用
   def email_required?
     false
@@ -47,4 +48,5 @@ class User < ApplicationRecord
   def inactive_message
     !deleted_at ? super : :deleted_account
   end
+
 end
