@@ -13,7 +13,7 @@ class AdminsController < ApplicationController
     if @video.save
       redirect_to admins_path
     else
-      p @video.errors.full_messages
+      @video.errors.full_messages
       video_group_select
       render :index
     end

@@ -11,4 +11,5 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.precompile += %w( search.js )
 Rails.application.config.assets.precompile += %w( *.ttf *.woff *.svg *.eot *.woff2 *.jpg *.png *.gif)
 Rails.application.config.assets.precompile += %w( modernizr-2.6.2.min.js )
+Rails.application.config.assets.precompile += %w( infinite-scroll.pkgd.min.js )
 Rails.application.config.assets.precompile += %w( admin.css )

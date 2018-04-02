@@ -5,3 +5,8 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+#
+# coding: utf-8
+20.times do |num|
+  Video.create(video_time: "10:00:00", uq_video_name: "タイトル#{num}", uq_video_perm: "#{num}", fk_groups_id: 1)
+end

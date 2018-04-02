@@ -1,6 +1,21 @@
 Rails.application.routes.draw do
-  devise_for :users, skip: [:registrations]
+  devise_for :users, controllers: {:omniauth_callbacks => "users/omniauth_callbacks", :registrations => "users/registrations"}
   root 'static_pages#index'
+  get '/page/:id', to: 'static_pages#index_pagination'
+
+  get '/search', to: 'static_pages#search'
+  get '/keyword/:id', to: 'static_pages#pagination'
+  get '/tag/:id', to: 'static_pages#pagination'
+
+  get '/mypage', to: 'static_pages#mypage'
+  post '/mypage', to: 'static_pages#file_upload'
+  get '/mypage/:id', to: 'static_pages#mypage_pagination'
+
+  get '/video/:id', to: 'static_pages#video'
+
+  resources :videos do
+    resources :likes, only: [:create, :destroy]
+  end
 
   get '/riyokiyaku', to: 'static_pages#riyokiyaku'
   get '/courses', to: 'static_pages#courses'

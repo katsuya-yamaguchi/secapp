@@ -1,156 +1,49 @@
-<div class="fh5co-loader" style="background: url(<%= asset_path " loader.gif"%> center no-repeat #fff);"></div>
-
-<div id="page">
-  <nav class="fh5co-nav" role="navigation">
-    <div class="top">
-      <div class="container">
-        <div class="row">
-          <!-- GitHubなどと連携する場合にコメントアウトを解除する。
-          <div class="col-xs-12 text-right">
-            <p class="num">Call: +01 123 456 7890</p>
-            <ul class="fh5co-social">
-              <li>
-                <a href="#">
-                  <i class="icon-twitter"></i>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <i class="icon-dribbble"></i>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <i class="icon-github"></i>
-                </a>
-              </li>
-            </ul>
-          </div>
-          -->
+  <div class="content">
+    <div class="col-12 mx-auto my-1 infinite-content">
+    <% for num in 0..@initial_video_title.size-1 do %>
+      <div class="card mb-3">
+        <a href="/video/<%= @initial_video_id[num] %>">
+        <img class="card-img-top img-fluid" src="<%= asset_path "img_bg_top.jpg" %>" alt="" style="height: 20rem;">
+        </a>
+        <div class="card-body">
+          <h4 class="card-title"><%= @initial_video_title[num] %></h4>
+          <button type="button" class="btn-like" style="font-size: 1.5rem;">
+            <i class="fa fa-thumbs-up"></i>
+            <span class="badge badge-pill badge-secondary" id="good-num"><%= @initial_video_data[num].get_likes_number(@initial_video_data[num].id) %></span>
+          </button>
         </div>
       </div>
-    </div>
-    <div class="top-menu">
-      <div class="container">
-
-        <%= render "layouts/navbar_link" %>
-
-      </div>
-    </div>
-  </nav>
-  <header id="fh5co-header" class="fh5co-cover" role="banner" style="background-image:url(<%= asset_path "img_bg_top.jpg"%>);" data-stellar-background-ratio="0.5">
-    <div class="overlay"></div>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-8 col-md-offset-2 text-center">
-          <div class="display-t">
-            <div class="display-tc animate-box" data-animate-effect="fadeIn">
-              <h1>SHIROBUHI</h1>
-              <p>
-                <a class="btn btn-primary btn-lg btn-learn" href="/courses">Take A Course</a>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <div id="fh5co-explore" class="fh5co-bg-section">
-    <div class="container">
-      <div class="row animate-box">
-        <div class="col-md-6 col-md-offset-3 text-center fh5co-heading">
-          <h2>動画で学ぶセキュリティ対策</h2>
-          <p>攻撃ケースや被害情報から、「自分でできるセキュリティ対策」を動画で学んでいくことができます。</p>
-        </div>
-      </div>
-    </div>
-    <div class="fh5co-explore fh5co-explore1">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-8 col-md-offset-2 animate-box">
-            <%= image_tag("work_1.png", alt: "work", class: "img-responsive")%>
-          </div>
-          <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 animate-box">
-            <div class="mt">
-              <h3 >動画の構成</h3>
-              <p>主に以下の3つで構成されています。</p>
-              <ul class="list-nav">
-                <li><i class="icon-check2"></i>動画の概要</li>
-                <li><i class="icon-check2"></i>自分でできるセキュリティ対策</li>
-                <li><i class="icon-check2"></i>セキュリティ対策をしていない場合の被害</li>
-              </ul>
-              <p>
-                <a class="btn btn-primary btn-lg popup-vimeo btn-video" href="https://vimeo.com/channels/staffpicks/93951774">
-                  <i class="icon-play"></i>
-                  Sample Video
-                </a>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+    <% end %>
     </div>
   </div>
 
-  <div class="fh5co-explore" style="background-image:url(<%= asset_path "img_bg_1.jpg"%>);" data-stellar-background-ratio="0.5">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 col-md-offset-3 animate-box">
-          <div class="mt fh5co-explore-p">
-              <h3 >こだわり</h3>
-            <div>
-              <h4>
-                <i class="icon-user"></i>身近に感じるセキュリティ</h4>
-                <p>セキュリティ対策をしない場合、どのような被害を受ける可能性があるかご説明します。その際、状況をできるだけ日常に近づけることで他人事ではなく、実際に身の回りで起こり得ると感じて貰います。</p>
-            </div>
-            <div>
-              <h4>
-                <i class="icon-video2"></i>実践しやすい動画</h4>
-              <p>セキュリティ対策の方法だけでなく、環境構築などの事前作業まで動画にしています。あくまで、実践できる動画を目指しています。</p>
-            </div>
-            <div>
-              <h4>
-                <i class="icon-paper"></i>動画の内容をテキストで</h4>
-              <p>動画の内容をテキスト形式で見ることができます。</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <%= content_for :index_pagination do %>
+  <script>
+    function getAdditionPath(){
+      var pageNumber = (this.loadCount + 1) * 10;
+      return '/page/' + pageNumber;
+    }
+    $('.infinite-content').infiniteScroll({
+      path: getAdditionPath,
+      append: '.card',
+      scrollThreshold: 100,
+      status: '.page-load-status',
+      history: false,
+    });
 
-  <!--div id="fh5co-started" style="background-image:url(<%= asset_path "img_bg_2.jpg"%>);"-->
-  <div id="fh5co-started">
-    <div class="container">
-      <div class="row animate-box">
-        <div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
-          <h2>はじめてみましょう</h2>
-        </div>
-      </div>
-      <div class="row animate-box">
-        <div class="col-md-8 col-md-offset-2 text-center">
-          <p>
-            <a href="/courses" class="btn btn-default btn-lg">Take A Course</a>
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
+  /*$(document).on('click', '.btn-like', function(e){
+    var state = $('button').attr('id');
+    if(state === 'before-like'){
+      console.log($('button').attr('id'))
+      $('.btn-like').css('color', '#ffff00');
+    }else if(state === 'after-like'){
+      console.log($('button').attr('id'))
+      $('.btn-like').css('color', '#ffff00');
+    }else{
+      console.log($('button').attr('id'))
+    }
+  })*/;
 
-  <footer id="fh5co-footer" role="contentinfo">
-    <div class="container">
-      <div class="row row-pb-md">
-        <div class="col-md-2 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-6 col-xs-offset-3 col-md-push-1">
-          <h4 class="text-center"><a href="/riyokiyaku">利用規約</a></h4>
-        </div>
-      </div>
-    </div>
-  </footer>
-</div>
+  </script>
+  <% end %>
 
-<div class="gototop js-top">
-  <a href="#" class="js-gotop">
-    <i class="icon-arrow-up"></i>
-  </a>
-</div>

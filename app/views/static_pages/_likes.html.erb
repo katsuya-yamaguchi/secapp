@@ -1,0 +1,18 @@
+<h4 class="<%= video.id %>">
+<% if user_signed_in? %>
+  <% if video.like_by(current_user.id) %>
+    <%= button_to video_like_path(video.id, video.id), method: :delete, class: "btn-like", id:"before-like", remote: true do %>
+      <i class="fa fa-thumbs-up"></i>
+      <span class="badge badge-pill badge-secondary" id="good-num"><%= video.get_likes_number(video.id) %></span>
+    <% end %>
+  <% else %>
+    <%= button_to video_likes_path(video.id, video_id: video.id), class: "btn-like", id:"after-like", remote: true do %>
+      <i class="fa fa-thumbs-up"></i>
+      <span class="badge badge-pill badge-secondary" id="good-num"><%= video.get_likes_number(video.id) %></span>
+    <% end %>
+  <% end %>
+<% else %>
+  <button type="button" class="fa fa-thumbs-up btn-like" id="not-change-like"></button>
+  <span class="badge badge-pill badge-secondary" id="good-num"><%= video.get_likes_number(video.id) %></span>
+<% end %>
+</h4>

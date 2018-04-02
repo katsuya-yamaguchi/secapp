@@ -47,6 +47,70 @@ CREATE TABLE ar_internal_metadata (
 
 
 --
+-- Name: group_maps; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE group_maps (
+    id bigint NOT NULL,
+    video_group_id bigint,
+    video_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: group_maps_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE group_maps_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: group_maps_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE group_maps_id_seq OWNED BY group_maps.id;
+
+
+--
+-- Name: likes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE likes (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    video_id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: likes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE likes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: likes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE likes_id_seq OWNED BY likes.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -77,7 +141,11 @@ CREATE TABLE users (
     unconfirmed_email character varying,
     failed_attempts integer DEFAULT 0 NOT NULL,
     unlock_token character varying,
-    locked_at timestamp without time zone
+    locked_at timestamp without time zone,
+    provider character varying,
+    uid character varying,
+    username character varying DEFAULT 'anoymous'::character varying,
+    deleted_at timestamp without time zone
 );
 
 
@@ -101,49 +169,15 @@ ALTER SEQUENCE users_id_seq OWNED BY users.id;
 
 
 --
--- Name: video_categories; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE video_categories (
-    id bigint NOT NULL,
-    uq_category_name character varying(255),
-    delete_flag integer DEFAULT 0 NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: video_categories_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE video_categories_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: video_categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE video_categories_id_seq OWNED BY video_categories.id;
-
-
---
 -- Name: video_groups; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE video_groups (
     id bigint NOT NULL,
     uq_group_name character varying(255) NOT NULL,
-    fk_category_id bigint,
     delete_flag integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    uq_group_perm character varying(255) NOT NULL
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -172,17 +206,14 @@ ALTER SEQUENCE video_groups_id_seq OWNED BY video_groups.id;
 
 CREATE TABLE videos (
     id bigint NOT NULL,
-    video_time time without time zone NOT NULL,
-    uq_video_name character varying(255),
-    fk_groups_id bigint NOT NULL,
+    video_name character varying(255),
     delete_flag integer DEFAULT 0 NOT NULL,
     num_play bigint DEFAULT 0 NOT NULL,
     video_file_name character varying(255),
-    description character varying(255),
-    procedure character varying(255),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    uq_video_perm character varying(255) NOT NULL
+    fk_users_id bigint NOT NULL,
+    description text
 );
 
 
@@ -206,17 +237,24 @@ ALTER SEQUENCE videos_id_seq OWNED BY videos.id;
 
 
 --
+-- Name: group_maps id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY group_maps ALTER COLUMN id SET DEFAULT nextval('group_maps_id_seq'::regclass);
+
+
+--
+-- Name: likes id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY likes ALTER COLUMN id SET DEFAULT nextval('likes_id_seq'::regclass);
+
+
+--
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
-
-
---
--- Name: video_categories id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY video_categories ALTER COLUMN id SET DEFAULT nextval('video_categories_id_seq'::regclass);
 
 
 --
@@ -242,6 +280,22 @@ ALTER TABLE ONLY ar_internal_metadata
 
 
 --
+-- Name: group_maps group_maps_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY group_maps
+    ADD CONSTRAINT group_maps_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: likes likes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY likes
+    ADD CONSTRAINT likes_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -255,14 +309,6 @@ ALTER TABLE ONLY schema_migrations
 
 ALTER TABLE ONLY users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
-
-
---
--- Name: video_categories video_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY video_categories
-    ADD CONSTRAINT video_categories_pkey PRIMARY KEY (id);
 
 
 --
@@ -289,13 +335,6 @@ CREATE UNIQUE INDEX index_users_on_confirmation_token ON users USING btree (conf
 
 
 --
--- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
-
-
---
 -- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -310,13 +349,6 @@ CREATE UNIQUE INDEX index_users_on_unlock_token ON users USING btree (unlock_tok
 
 
 --
--- Name: index_video_categories_on_uq_category_name; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_video_categories_on_uq_category_name ON video_categories USING btree (uq_category_name);
-
-
---
 -- Name: index_video_groups_on_uq_group_name; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -324,61 +356,43 @@ CREATE UNIQUE INDEX index_video_groups_on_uq_group_name ON video_groups USING bt
 
 
 --
--- Name: index_video_groups_on_uq_group_perm; Type: INDEX; Schema: public; Owner: -
+-- Name: group_maps fk_rails_08584c8dbc; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_video_groups_on_uq_group_perm ON video_groups USING btree (uq_group_perm);
-
-
---
--- Name: index_videos_on_description; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_videos_on_description ON videos USING btree (description);
+ALTER TABLE ONLY group_maps
+    ADD CONSTRAINT fk_rails_08584c8dbc FOREIGN KEY (video_id) REFERENCES videos(id);
 
 
 --
--- Name: index_videos_on_procedure; Type: INDEX; Schema: public; Owner: -
+-- Name: likes fk_rails_1e09b5dabf; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_videos_on_procedure ON videos USING btree (procedure);
-
-
---
--- Name: index_videos_on_uq_video_name; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_videos_on_uq_video_name ON videos USING btree (uq_video_name);
+ALTER TABLE ONLY likes
+    ADD CONSTRAINT fk_rails_1e09b5dabf FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
--- Name: index_videos_on_uq_video_perm; Type: INDEX; Schema: public; Owner: -
+-- Name: group_maps fk_rails_7f3838f0a0; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_videos_on_uq_video_perm ON videos USING btree (uq_video_perm);
-
-
---
--- Name: index_videos_on_video_file_name; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_videos_on_video_file_name ON videos USING btree (video_file_name);
+ALTER TABLE ONLY group_maps
+    ADD CONSTRAINT fk_rails_7f3838f0a0 FOREIGN KEY (video_group_id) REFERENCES video_groups(id);
 
 
 --
--- Name: video_groups fk_rails_042ee9573d; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: likes fk_rails_abaf7be654; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY video_groups
-    ADD CONSTRAINT fk_rails_042ee9573d FOREIGN KEY (fk_category_id) REFERENCES video_categories(id);
+ALTER TABLE ONLY likes
+    ADD CONSTRAINT fk_rails_abaf7be654 FOREIGN KEY (video_id) REFERENCES videos(id);
 
 
 --
--- Name: videos fk_rails_10e4da9393; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: videos fk_rails_f8bc10e708; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY videos
-    ADD CONSTRAINT fk_rails_10e4da9393 FOREIGN KEY (fk_groups_id) REFERENCES video_groups(id);
+    ADD CONSTRAINT fk_rails_f8bc10e708 FOREIGN KEY (fk_users_id) REFERENCES users(id);
 
 
 --
@@ -394,6 +408,19 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20170923071025'),
 ('20171129121425'),
 ('20171129124044'),
-('20180107032456');
+('20180107032456'),
+('20180228205051'),
+('20180228205556'),
+('20180305210313'),
+('20180305210712'),
+('20180305211013'),
+('20180305211413'),
+('20180305212406'),
+('20180311210432'),
+('20180315115307'),
+('20180325194417'),
+('20180327212457'),
+('20180328204740'),
+('20180329120042');
 
 
