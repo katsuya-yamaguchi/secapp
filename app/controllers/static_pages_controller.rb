@@ -7,9 +7,11 @@ class StaticPagesController < ApplicationController
     @initial_video_title = []
     @initial_video_id = []
     @initial_video_data = Video.find_by_sql(['select id, video_name from videos order by updated_at desc limit 10'])
-    for i in 0..9 do
-      @initial_video_id.push(@initial_video_data[i]["id"])
-      @initial_video_title.push(@initial_video_data[i]["video_name"])
+    if !@initial_video_data.empty?
+      for i in 0..9 do
+        @initial_video_id.push(@initial_video_data[i]["id"])
+        @initial_video_title.push(@initial_video_data[i]["video_name"])
+      end
     end
   end
 
