@@ -68,5 +68,6 @@ gem 'omniauth-google-oauth2'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'carrierwave'
+gem 'streamio-ffmpeg'
 
 gem 'unicorn'
