@@ -1,3 +1,5 @@
+require "streamio-ffmpeg"
+
 class Video < ApplicationRecord
   has_many :group_maps, class_name: "GroupMap"
   has_many :likes, class_name: "Like", dependent: :destroy
@@ -7,7 +9,6 @@ class Video < ApplicationRecord
   VALID_VIDEO_REGEX = /.*\.mp4/
   validates :video_file_name, presence: true, format: {with: VALID_VIDEO_REGEX}
   validates :video_name, presence: true
-
 
   def self.pagination(offset_times, sql, search_word)
     addition_video_id = []
@@ -23,9 +24,14 @@ class Video < ApplicationRecord
     return addition_video_id, addition_video_title
   end
 
-  def save_tags(tags)
+  def save_tags(tags, video_id)
     current_tags = VideoGroup.pluck(:uq_group_name)
     new_tags = tags - current_tags
+
+    group = VideoGroup.select("id").where(uq_group_name: tags)
+    unless group[0].nil?
+      self.group_maps.create(video_group_id: group[0]["id"], video_id: video_id, created_at: Time.new, updated_at: Time.new)
+    end
 
     unless new_tags.empty?
       new_tags.each do |new_name|

@@ -46,5 +46,18 @@ class VideoUploader < CarrierWave::Uploader::Base
   # def filename
   #   "something.jpg" if original_filename
   # end
+  version :screenshot do
+    process :screenshot
+    def full_filename(for_file = model.logo.file)
+      identifier + ".jpg"
+    end
+  end
+  def screenshot
+    tmpfile = File.join(File.dirname(current_path), "tmpfile")
+    File.rename(current_path, tmpfile)
+    movie = FFMPEG::Movie.new(tmpfile)
+    movie.screenshot(current_path + "jpg", {resolution: '512 * 512'}, preserve_aspect_ration: :width, preserve_aspect_ratio: :width, seek_tim: 1)
+    File.rename(current_path + "jpg", current_path)
+  end
 
 end

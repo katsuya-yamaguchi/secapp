@@ -16,6 +16,7 @@
 #
 require 'factory_girl_rails'
 require 'database_cleaner'
+require 'devise'
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
@@ -111,4 +112,5 @@ RSpec.configure do |config|
   end
 
   config.include FactoryGirl::Syntax::Methods
+
 end
