@@ -1,0 +1,44 @@
+  <div class="container">
+
+    <div class="content">
+      <div class="delete-title">
+        <h2 class="mt-3">退会ページ</h2>
+      </div>
+
+      <div class="delete-description border p-2">
+        <p>退会ページでは、退会手続きが行えます。</p>
+        <p>下記のボックスにチェックを入れ「退会」ボタンを押下して下さい。</p>
+        <p>押下後、数秒後に退会処理が完了します。</p>
+        <br>
+        <br>
+        <p>この度はSHIROBUHIをご利用頂き、大変ありがとうございました。</p>
+        <p>満足いくサービスを提供できず、申し訳ありません。</p>
+        <p>これからもサービスの改善を行っていきますので、またのご利用をお待ちしています。</p>
+      </div>
+
+      <div class="custom-control custom-checkbox mb-3">
+        <input id="check-delete-user" type="checkbox" class="custom-control-input" val="del">
+        <label class="custom-control-label" for="check-delete-user">退会</label>
+      </div>
+
+      <div class="delete-link">
+        <%= link_to "マイページへ", mypage_path, class: "nav-link ml-auto btn btn-outline-light", id: "delete-user",style: "font-size: 0.5rem;color: #000000;", method: "get" %>
+      </div>
+    </div>
+  </div>
+
+  <%= content_for :delete_user do %>
+  <script>
+    $("input#check-delete-user").change(function(){
+      if($('input[type="checkbox"]').prop("checked")){
+        $(".nav-link#delete-user").attr("href", "/user");
+        $(".nav-link#delete-user").attr("data-method", "delete");
+        $(".nav-link#delete-user").text("退会します");
+      }else{
+        $(".nav-link#delete-user").attr("href", "/mypage");
+        $(".nav-link#delete-user").attr("data-method", "get");
+        $(".nav-link#delete-user").text("マイページへ");
+      }
+    });
+  </script>
+  <% end %>

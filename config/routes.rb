@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   post '/mypage', to: 'static_pages#file_upload'
   get '/mypage/:id', to: 'static_pages#mypage_pagination'
 
+  get '/delete/:id', to: 'static_pages#delete_user', as: 'delete_user'
+
   get '/video/:id', to: 'static_pages#video'
 
   resources :videos do

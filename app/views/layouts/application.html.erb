@@ -45,11 +45,14 @@
     <%= javascript_include_tag "application", 'data-turbolinks-track': "reload" %>
     <%= yield :index_pagination %>
     <%= yield :search_pagination %>
+    <%= yield :delete_user %>
 
     <script>
       $(function(){
         let current_path = location.pathname.split('/')[1];
-        if(current_path !== 'search' && current_path !== 'mypage'){
+        if(current_path === 'delete'){
+          current_path = 'mypage'
+        }else if(current_path !== 'search' && current_path !== 'mypage'){
           current_path = 'home';
         }
         $(`#item-${current_path}`).addClass('disabled');
