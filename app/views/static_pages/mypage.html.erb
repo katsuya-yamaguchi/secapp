@@ -26,13 +26,15 @@
           <div class="mb-3 custom-file">
             <%= f.file_field :video_file_name, class: "custom-file-input" %>
             <label class="col-form-label custom-file-label" style="white-space: nowrap; overflow: hidden;">ファイルを選択して下さい...</label>
-            <p><%= flash[:upload_status] %></p>
+            <p class="mt-2" style="color: #ff0000;"><%= flash[:upload_status] %></p>
           </div>
-          <div class="form-group mb-3">
+          <div class="form-group my-4">
             <button type="submit" class="btn btn-primary">Up load</button>
           </div>
         <% end %>
-          <%= link_to "delete", user_registration_path, class: "nav-link ml-auto btn btn-outline-light", style: "font-size: 0.5rem", method: "delete" %>
+        <br>
+        <br>
+        <%= link_to "退会ページへ",delete_user_path(current_user.id), class: "nav-link ml-auto btn btn-outline-light", style: "font-size: 0.5rem;color: #000000;" %>
         </div>
       </div>
       <div id="content-history" class="tab-pane" role="tabpanel">

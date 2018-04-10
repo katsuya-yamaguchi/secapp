@@ -1,5 +1,5 @@
 class StaticPagesController < ApplicationController
-  before_action :sign_in_required, only: [:mypage]
+  before_action :sign_in_required, only: [:mypage, :delete_user]
 
   @@search_word = String.new
 
@@ -128,6 +128,9 @@ class StaticPagesController < ApplicationController
     return
   end
 
+  def delete_user
+  end
+
   def video
     @file = ""
     video_id = request.fullpath.split("/")[2].to_i
@@ -148,7 +151,7 @@ class StaticPagesController < ApplicationController
       flash[:upload_status] = "アップロードが成功しました。"
     else
       flash[:upload_status] = "アップロードが失敗しました。"
-      render :mypage
+      redirect_to :mypage
     end
   end
 
