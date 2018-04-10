@@ -1,0 +1,35 @@
+  <div class="content">
+    <div class="col-12 mx-auto my-1 infinite-content">
+    <% for num in 0..@initial_video_title.size-1 do %>
+      <div class="card mb-3">
+        <a href="/video/<%= @initial_video_id[num] %>">
+        <img class="card-img-top img-fluid" src="uploads/video/<%= @initial_video_file[num] %>.jpg" alt="" style="height: 20rem;">
+        </a>
+        <div class="card-body">
+          <h4 class="card-title"><%= @initial_video_title[num] %></h4>
+          <button type="button" class="btn-like" style="font-size: 1.5rem;">
+            <i class="fa fa-thumbs-up"></i>
+            <span class="badge badge-pill badge-secondary" id="good-num"><%= @initial_video_data[num].get_likes_number(@initial_video_data[num].id) %></span>
+          </button>
+        </div>
+      </div>
+    <% end %>
+    </div>
+  </div>
+
+  <%= content_for :home_pagination do %>
+  <script>
+    function getAdditionPath(){
+      var pageNumber = (this.loadCount + 1) * 10;
+      return '/home/' + pageNumber;
+    }
+    $('.infinite-content').infiniteScroll({
+      path: getAdditionPath,
+      append: '.card',
+      scrollThreshold: 100,
+      status: '.page-load-status',
+      history: false,
+    });
+  </script>
+  <% end %>
+
