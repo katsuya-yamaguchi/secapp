@@ -26,7 +26,7 @@
 
   <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top nav-top justify-content-between">
-      <a class="navbar-brand text-center" href="#">SHIROBUHI</a>
+      <a class="navbar-brand text-center" href="/">SHIROBUHI</a>
         <% if user_signed_in? then%>
             <%= link_to "Logout - #{@current_user_name}", destroy_user_session_path, class: "nav-link ml-auto btn btn-outline-light", style: "font-size: 0.5rem" %>
         <% else %>
@@ -37,21 +37,23 @@
     <%= yield %>
 
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-bottom text-center nav-bottom menu-bar">
-      <a class="nav-item nav-link col-4 menu-bar-item" id="item-home" href="/" style="font-size: 2rem;"><i class="fa fa-home"></i></a>
+      <a class="nav-item nav-link col-4 menu-bar-item" id="item-home" href="/home" style="font-size: 2rem;"><i class="fa fa-home"></i></a>
       <a class="nav-item nav-link col-4 menu-bar-item" id="item-search" href="/search" style="font-size: 2rem;"><i class="fa fa-search"></i></a>
       <a class="nav-item nav-link col-4 menu-bar-item" id="item-mypage" href="/mypage" style="font-size: 2rem;"><i class="fa fa-user"></i></a>
     </nav>
 
     <%= javascript_include_tag "application", 'data-turbolinks-track': "reload" %>
-    <%= yield :index_pagination %>
+    <%= yield :home_pagination %>
     <%= yield :search_pagination %>
     <%= yield :delete_user %>
 
     <script>
       $(function(){
         let current_path = location.pathname.split('/')[1];
-        if(current_path === 'delete'){
-          current_path = 'mypage'
+        if(current_path === ''){
+          return;
+        }else if(current_path === 'delete'){
+          current_path = 'mypage';
         }else if(current_path !== 'search' && current_path !== 'mypage'){
           current_path = 'home';
         }

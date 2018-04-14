@@ -1,49 +1,32 @@
   <div class="content">
-    <div class="col-12 mx-auto my-1 infinite-content">
-    <% for num in 0..@initial_video_title.size-1 do %>
-      <div class="card mb-3">
-        <a href="/video/<%= @initial_video_id[num] %>">
-        <img class="card-img-top img-fluid" src="uploads/video/<%= @initial_video_file[num] %>.jpg" alt="" style="height: 20rem;">
-        </a>
-        <div class="card-body">
-          <h4 class="card-title"><%= @initial_video_title[num] %></h4>
-          <button type="button" class="btn-like" style="font-size: 1.5rem;">
-            <i class="fa fa-thumbs-up"></i>
-            <span class="badge badge-pill badge-secondary" id="good-num"><%= @initial_video_data[num].get_likes_number(@initial_video_data[num].id) %></span>
-          </button>
+    <div class="container">
+      <div class="row mt-4 text-center copy-text" style="background-color: ;">
+        <div class="col-10 offset-1">
+          <h3>一人で守らなくて大丈夫。</h3>
+          <p>SHIROBUHIはセキュリティに特化した動画投稿サービスです。</p>
         </div>
       </div>
-    <% end %>
+      <hr>
+      <div class="row mt-4 text-center copy-text">
+        <div class="col-10 offset-1">
+          <div class="mb-5">
+            <h3><i class="fa fa-check mr-1"></i>技術のアウトプット場所になる。</h3>
+            <p>セキュリティは複雑な技術です。そのため、習得までの時間を短縮するためにはインプットした情報をアウトプットすることがとても大切になってきます。SHIROBUHIで動画を投稿し、自分の技術向上に役立てて下さい。</p>
+          </div>
+          <div class="mb-5">
+            <h3><i class="fa fa-check mr-1"></i>経験・知識を共有できる。</h3>
+            <p>アウトプットされた情報は閲覧する人にも役立ちます。自分に知識がない場合、SHIROBUHIが対策のスタート地点になります。</p>
+          </div>
+          <div>
+            <h3><i class="fa fa-check mr-1"></i>すぐに対策できる。</h3>
+            <p>実際にセキュリティ対策を行ってこそ意味があります。セキュリティ技術に詳しくない人でもSHIROBUHIで得た情報で対策が行えます。一人で勉強して対策するよりも時間が短縮されるはずです。</p>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row my-4">
+        <%= link_to "SHIROBUHIへようこそ",home_path, class: "mx-auto btn btn-outline-primary", style: "font-size: 0.5rem;" %>
+      </div>
     </div>
   </div>
-
-  <%= content_for :index_pagination do %>
-  <script>
-    function getAdditionPath(){
-      var pageNumber = (this.loadCount + 1) * 10;
-      return '/page/' + pageNumber;
-    }
-    $('.infinite-content').infiniteScroll({
-      path: getAdditionPath,
-      append: '.card',
-      scrollThreshold: 100,
-      status: '.page-load-status',
-      history: false,
-    });
-
-  /*$(document).on('click', '.btn-like', function(e){
-    var state = $('button').attr('id');
-    if(state === 'before-like'){
-      console.log($('button').attr('id'))
-      $('.btn-like').css('color', '#ffff00');
-    }else if(state === 'after-like'){
-      console.log($('button').attr('id'))
-      $('.btn-like').css('color', '#ffff00');
-    }else{
-      console.log($('button').attr('id'))
-    }
-  })*/;
-
-  </script>
-  <% end %>
 
