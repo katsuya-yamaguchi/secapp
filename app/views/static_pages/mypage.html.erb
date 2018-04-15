@@ -43,7 +43,7 @@
           <% for num in 0..@initial_video_title.size-1 do %>
             <div class="card mb-3">
               <a href="/video/<%= @initial_video_id[num] %>">
-                <img class="card-img-top img-fluid" src="uploads/video/<%= @initial_video_file[num] %>.jpg" alt="" style="height: 20rem;">
+                <img class="card-img-top img-fluid" src="https://object-storage.tyo1.conoha.io/v1/nc_ae525541a58a443c98717ded126b6ac3/shirobuhi_obs/uploads/<%= @initial_video_file[num] %>.jpg" alt="" style="height: 20rem;">
               </a>
               <div class="card-body">
                 <h4 class="card-title"><%= @initial_video_title[num] %></h4>
