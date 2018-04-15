@@ -71,3 +71,4 @@ gem 'carrierwave'
 gem 'streamio-ffmpeg'
 
 gem 'unicorn'
+gem 'fog'
