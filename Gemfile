@@ -72,3 +72,5 @@ gem 'streamio-ffmpeg'
 
 gem 'unicorn'
 gem 'fog'
+gem 'sitemap_generator'
+gem 'whenever'
