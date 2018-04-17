@@ -52,6 +52,13 @@
                   <span class="badge badge-pill badge-secondary" id="good-num"><%= @initial_video_data[num].get_likes_number(@initial_video_data[num].id) %></span>
                 </button>
               </div>
+              <!--div class="card-footer">
+                <div class="custom-control custom-checkbox mb-3">
+                  <input id="check-delete-movie" type="checkbox" class="custom-control-input" value="">
+                  <label class="custom-control-label" for="check-delete-movie">削除</label>
+                </div>
+                <button type="button" class="btn btn-outline-secondary btn-sm btn-delete-movie" id="" disabled>削除</button>
+              </div-->
             </div>
           <% end %>
           </div>
@@ -86,30 +93,6 @@
         e.preventDefault();
         $(this).tab('show');
         active_nav = $('.nav-search-item.active').children().attr('id');
-        /*$('#search_type').remove();
-        $('ul#tag').remove();
-        $('input#tags').remove();
-        */
-        if(active_nav == 'search_field_upload'){
-          /*
-          $('div.input-group').prepend(rails_text_field);
-          $('div.input-group').prepend(hidden_params_keyword);
-          */
-        }else{
-          /*
-          $('div.input-group').prepend('<ul id="tag"></ul>');
-          $('#tag').tagit({
-            fieldName: "category_tag",
-          });
-          $('.ui-widget-content').addClass('form-control');
-          $('input.ui-widget-content').attr({
-            'name': 'search',
-            'id': 'search',
-            'placeholder': 'タグを入力して下さい'
-          });
-          $('div.input-group').prepend(hidden_params_tag);
-          */
-        }
       })
 
       function getAdditionPath(){
@@ -124,6 +107,25 @@
         status: '.page-load-status',
         history: false,
       });
+
+/*
+      $('input#check-delete-movie').on('click', function(){
+        if($(this).prop('checked')){
+          let get_check = $(this).prop('value');
+          console.log(get_check)
+          $('.btn-delete-movie').prop('disabled', false)
+        }else{
+          $('.btn-delete-movie').prop('disabled', true)
+        }
+      });
+      $('.btn-delete-movie').click(function(){
+        let get_id = $(this).attr('id');
+        console.log(get_id);
+        
+        $.ajax({
+          url: /video/
+        });
+      });*/
 
   </script>
   <% end %>
