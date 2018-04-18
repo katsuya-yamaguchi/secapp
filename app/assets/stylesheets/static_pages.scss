@@ -16,7 +16,7 @@ body{
 
 // 検索ページのタブ: active状態で背景色を変更する
 .nav-item.nav-search-item.active{
-  background-color: #ff7f50;
+  background-color: #ffffff;
 }
 
 // search.html.erb inputタグのjquery-uiによるstyleの一部初期化
@@ -37,5 +37,15 @@ button.btn-like{
 // コピーテキスト
 .copy-text p{
   line-height: 2rem;
+}
+
+// 背景色
+body{
+  background-color: #f3f3f3;
+}
+
+// メニューバーの背景色
+.navbar{
+  background-color: #FFFFFF; 
 }
 

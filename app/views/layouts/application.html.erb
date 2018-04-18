@@ -33,19 +33,19 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top nav-top justify-content-between">
-      <a class="navbar-brand text-center" href="/">SHIROBUHI</a>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top nav-top justify-content-between border-bottom">
+      <a class="navbar-brand text-center" href="/" style="color: #000000;">SHIROBUHI</a>
         <% if user_signed_in? then%>
-            <%= link_to "Logout - #{@current_user_name}", destroy_user_session_path, class: "nav-link ml-auto btn btn-outline-light", style: "font-size: 0.5rem" %>
+            <%= link_to "Logout - #{@current_user_name}", destroy_user_session_path, class: "nav-link ml-auto btn btn-outline-dark", style: "font-size: 0.5rem;" %>
         <% else %>
-          <%= link_to "Login", new_user_session_path, class: "nav-link ml-auto btn btn-outline-light", style: "font-size: 0.5rem" %>
+          <%= link_to "Login", new_user_session_path, class: "nav-link ml-auto btn btn-outline-dark", style: "font-size: 0.5rem;" %>
         <% end %>
     </nav>
 
     <p class="font-italic border mx-auto"><%= notice %></p>
     <%= yield %>
 
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-bottom text-center nav-bottom menu-bar">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-bottom text-center nav-bottom menu-bar border-top">
       <a class="nav-item nav-link col-4 menu-bar-item" id="item-home" href="/home" style="font-size: 2rem;"><i class="fa fa-home"></i></a>
       <a class="nav-item nav-link col-4 menu-bar-item" id="item-search" href="/search" style="font-size: 2rem;"><i class="fa fa-search"></i></a>
       <a class="nav-item nav-link col-4 menu-bar-item" id="item-mypage" href="/mypage" style="font-size: 2rem;"><i class="fa fa-user"></i></a>
