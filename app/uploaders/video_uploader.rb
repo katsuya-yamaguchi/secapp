@@ -59,5 +59,8 @@ class VideoUploader < CarrierWave::Uploader::Base
     movie.screenshot(current_path + "jpg", {resolution: '320 * 320'}, preserve_aspect_ration: :width, preserve_aspect_ratio: :width, seek_tim: 1)
     File.rename(current_path + "jpg", current_path)
   end
-
+  
+  def size_range
+    1..50.megabytes
+  end
 end
