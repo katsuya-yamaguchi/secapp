@@ -37,6 +37,7 @@ class Video < ApplicationRecord
       new_tags.each do |new_name|
         video_group = self.video_groups.new(uq_group_name: new_name, created_at: Time.new, updated_at: Time.new)
         if video_group.save
+          self.group_maps.create(video_group_id: video_group.id, video_id: video_id, created_at: Time.new, updated_at: Time.new)
         else
           @error_msg = video_group.errors.full_messages
         end
