@@ -81,14 +81,14 @@ class StaticPagesController < ApplicationController
         @nav_item_tag = "active"
       end
       @@search_word = '%' + params[:category_tag] + '%'
-      initial_video_data = Video.find_by_sql([sql, {word: @@search_word}])
+      @initial_video_data = Video.find_by_sql([sql, {word: @@search_word}])
       for i in 0..9 do
-        if initial_video_data[i].nil? then
+        if @initial_video_data[i].nil? then
           break
         end
-        @initial_video_id.push(initial_video_data[i]["id"])
-        @initial_video_title.push(initial_video_data[i]["video_name"])
-        @initial_video_file.push(initial_video_data[i]["video_file_name"])
+        @initial_video_id.push(@initial_video_data[i]["id"])
+        @initial_video_title.push(@initial_video_data[i]["video_name"])
+        @initial_video_file.push(@initial_video_data[i]["video_file_name"])
       end
     end
   end
