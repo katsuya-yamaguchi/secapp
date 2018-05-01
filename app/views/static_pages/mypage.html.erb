@@ -38,6 +38,7 @@
         </div>
       </div>
       <div id="content-history" class="tab-pane" role="tabpanel">
+        <button type="button" class="btn btn-outline-secondary btn-sm btn-delete-movie my-3" id="video-delete-button" disabled>削除</button>
         <div class="content">
           <div class="col-12 mx-auto my-1 infinite-content">
           <% for num in 0..@initial_video_title.size-1 do %>
@@ -52,13 +53,12 @@
                   <span class="badge badge-pill badge-secondary" id="good-num"><%= @initial_video_data[num].get_likes_number(@initial_video_data[num].id) %></span>
                 </button>
               </div>
-              <!--div class="card-footer">
+              <div class="card-footer">
                 <div class="custom-control custom-checkbox mb-3">
-                  <input id="check-delete-movie" type="checkbox" class="custom-control-input" value="">
-                  <label class="custom-control-label" for="check-delete-movie">削除</label>
+                  <input id="<%= @initial_video_id[num] %>" type="checkbox" class="custom-control-input" value="">
+                  <label class="custom-control-label" for="<%= @initial_video_id[num] %>">削除</label>
                 </div>
-                <button type="button" class="btn btn-outline-secondary btn-sm btn-delete-movie" id="" disabled>削除</button>
-              </div-->
+              </div>
             </div>
           <% end %>
           </div>
@@ -108,24 +108,36 @@
         history: false,
       });
 
-/*
-      $('input#check-delete-movie').on('click', function(){
+      let delete_target = [];
+      let delete_button = "button#video-delete-button";
+      $('input.custom-control-input').on('click', function(){
+        let input_id = $(this).attr("id");
         if($(this).prop('checked')){
-          let get_check = $(this).prop('value');
-          console.log(get_check)
-          $('.btn-delete-movie').prop('disabled', false)
+          delete_target.push(input_id);
         }else{
-          $('.btn-delete-movie').prop('disabled', true)
+          let index = delete_target.indexOf(input_id)
+          delete_target.splice(index, 1);
+        }
+        console.log(delete_target);
+
+        // 削除対象の数によって、削除ボタンを有効/無効化する。
+        if(delete_target.length > 0){
+          $(delete_button).prop('disabled', false)
+        }else{
+          $(delete_button).prop('disabled', true)
         }
       });
-      $('.btn-delete-movie').click(function(){
-        let get_id = $(this).attr('id');
-        console.log(get_id);
         
-        $.ajax({
-          url: /video/
+      $("button#video-delete-button").on("click", function(){
+        $.each(delete_target, function(){
+          console.log(this);
+          $.ajax({
+            url: "/video/"+this,
+            type: "POST",
+            data: {id: [this]},
+          });
         });
-      });*/
+      });
 
   </script>
   <% end %>

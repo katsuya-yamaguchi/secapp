@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   get '/delete/:id', to: 'static_pages#delete_user', as: 'delete_user'
 
   get '/video/:id', to: 'static_pages#video'
-  delete '/video/:id', to: 'static_pages#video_destroy'
+  post '/video/:id', to: 'static_pages#video_destroy'
 
   resources :videos do
     resources :likes, only: [:create, :destroy]

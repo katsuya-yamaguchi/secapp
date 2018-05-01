@@ -147,6 +147,12 @@ class StaticPagesController < ApplicationController
     @description = @video_data[0]["description"]
   end
 
+  def video_destroy
+    video = Video.new
+    video.delete_file_with(params["id"])
+    redirect_to mypage_path
+  end
+  
   def file_upload
     @video = Video.new(file_params)
     tag = params[:category_tag].split(",")
