@@ -4,7 +4,11 @@ class ApplicationController < ActionController::Base
   before_action :get_current_user_info
 
   def after_sign_in_path_for(resource)
-    mypage_path
+    if current_user.email == "ka.yamaguchi.3@gmail.com"
+      admin_path
+    else
+      mypage_path
+    end
   end
 
   private

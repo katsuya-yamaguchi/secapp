@@ -1,76 +1,138 @@
-<%= content_for :admin_css do%>
-  <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
-<% end %>
-
   <div class="container">
 
-    <% if user_signed_in? %>
-      <p>ログインユーザ：<%= current_user.email %></p>
-    <% end %>
+    <ul class="nav nav-tabs justify-content-center nav-fill mt-2" role="tablist">
+      <li class="nav-item nav-search-item <%= @nav_item_upload %>"><a href="#content-upload" class="nav-link" id="nav_field_upload" aria-selected="false" role="tab" data-toggle="tab">アップロード</a></li>
+      <li class="nav-item nav-search-item <%= @nav_item_history %>"><a href="#content-history" class="nav-link" id="nav_field_history" aria-selected="false" role="tab" data-toggle="tab">履歴</a></li>
+    </ul>
 
-    <% @video.errors.full_messages.each do |msg| %>
-      <p><%= msg %></p>
-    <% end %>
-
-    <%= form_for(@video, :url => {:action => 'file_upload'}) do |f| %>
-      <div class='form-group'>
-      <%= f.label :video_time %><br>
-      <%= f.text_field :video_time %><br>
+    <div class="tab-content">
+      <div id="content-upload" class="tab-pane active" role="tabpanel">
+        <div class="content">
+          <div>
+          </div>
+          <%= form_for(@video, url: admin_path, html: {class: 'mt-2'}) do |f| %>
+          <div class="form-group mb-3">
+            <label class="col-form-label">タイトル</label>
+            <%= f.text_field :video_name, class: "form-control", placeholder: "タイトルを入力して下さい" %>
+          </div>
+          <div class="form-group mb-3">
+            <label class="col-form-label">説明</label>
+            <%= f.text_area :description, class: "form-control", placeholder: "説明を入力して下さい" %>
+          </div>
+          <div class="form-group mb-3">
+            <label class="col-form-label">タグ</label>
+            <ul id='tag'></ul>
+          </div>
+          <div class="mb-3 custom-file">
+            <%= f.file_field :video_file_name, class: "custom-file-input" %>
+            <label class="col-form-label custom-file-label" style="white-space: nowrap; overflow: hidden;">ファイルを選択して下さい...</label>
+            <p class="mt-2" style="color: #ff0000;"><%= flash[:upload_status] %></p>
+          </div>
+          <div class="form-group my-4">
+            <button type="submit" class="btn btn-primary">Up load</button>
+          </div>
+        <% end %>
+        </div>
       </div>
-
-      <div class='form-group'>
-      <%= f.label :uq_video_name %><br>
-      <%= f.text_field :uq_video_name %><br>
+      <div id="content-history" class="tab-pane" role="tabpanel">
+        <button type="button" class="btn btn-outline-secondary btn-sm btn-delete-movie my-3" id="video-delete-button" disabled>削除</button>
+        <div class="content">
+          <div class="col-12 mx-auto my-1 infinite-content">
+          <% for num in 0..@initial_video_title.size-1 do %>
+            <div class="card mb-3">
+              <a href="/video/<%= @initial_video_id[num] %>">
+                <img class="card-img-top img-fluid" src="https://object-storage.tyo1.conoha.io/v1/nc_ae525541a58a443c98717ded126b6ac3/shirobuhi_obs/uploads/<%= @initial_video_file[num] %>.jpg" alt="" style="height: 20rem;">
+              </a>
+              <div class="card-body">
+                <h4 class="card-title"><%= @initial_video_title[num] %></h4>
+                <button type="button" class="btn-like" style="font-size: 1.5rem;">
+                  <i class="fa fa-thumbs-up"></i>
+                  <span class="badge badge-pill badge-secondary" id="good-num"><%= @initial_video_data[num].get_likes_number(@initial_video_data[num].id) %></span>
+                </button>
+              </div>
+              <div class="card-footer">
+                <div class="custom-control custom-checkbox mb-3">
+                  <input id="<%= @initial_video_id[num] %>" type="checkbox" class="custom-control-input" value="">
+                  <label class="custom-control-label" for="<%= @initial_video_id[num] %>">削除</label>
+                </div>
+              </div>
+            </div>
+          <% end %>
+          </div>
+        </div>
       </div>
-
-      <div class='form-group'>
-      <%= f.label :fk_groups_id %><br>
-      <%= f.text_field :fk_groups_id %><br>
-      </div>
-
-      <div class='form-group'>
-      <%= f.label :video_file_name %>
-      <%= f.file_field :video %>
-      </div>
-
-      <div class='form-group'>
-      <%= f.label :description %>
-      <%= f.file_field :description %>
-      </div>
-
-      <div class='form-group'>
-      <%= f.label :procedure %>
-      <%= f.file_field :procedure %>
-      </div>
-
-      <div class='video-perm'>
-        <%= f.label :uq_video_perm %><br>
-        <%= f.text_field :uq_video_perm %><br>
-      </div>
-
-      <%= f.submit %>
-    <% end %>
-
-    <table class='table table-bordered table-striped table-group'>
-    <% for x in 0..@groups.length-1 do %>
-      <caption>ビデオグループ 一覧</caption>
-      <thead>
-        <tr>
-          <th>id</th>
-          <th>グループ名</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><%= @groups[x]["id"] %></td>
-          <td><%= @groups[x]["uq_group_name"] %></td>
-        </tr>
-      </tbody>
-    <% end %>
-    </table>
-
-    <%= button_to "LogOut", destroy_user_session_path, method: :delete %>
-
     </div>
+
   </div>
-</div>
+<%= content_for :search_pagination do %>
+    <script>
+      var active_nav = 'search_field_upload'
+      var rails_text_field = '<%= text_field_tag :tags, "", class: "form-control", placeholder: "キーワードを入力して下さい" %>' 
+      var hidden_params_keyword = '<input type="hidden" name="search_type" id="search_type" value="search_field_keyword">'
+      var hidden_params_tag = '<input type="hidden" name="search_type" id="search_type" value="search_field_tag">'
+
+      $(document).ready(function(){
+        $('#tag').tagit({
+          fieldName: "category_tag",
+          singleField: true
+        });
+      });
+
+      $('.custom-file-input').on('change', function(e){
+        $(this).next('.custom-file-label').html($(this)[0].files[0].name);
+      });
+
+      $('.form-group button').on('click', function(e){
+        $(this).addClass('disabled');
+      });
+
+      $('.nav-search-item a').on('click', function(e){
+        e.preventDefault();
+        $(this).tab('show');
+        active_nav = $('.nav-search-item.active').children().attr('id');
+      })
+
+      function getAdditionPath(){
+        var pageNumber = (this.loadCount + 1) * 10;
+        return '/admin/' + pageNumber;
+      }
+
+      $('.infinite-content').infiniteScroll({
+        path: getAdditionPath,
+        append: '.card',
+        scrollThreshold: 80,
+        status: '.page-load-status',
+        history: false,
+      });
+
+      let delete_target = [];
+      let delete_button = "button#video-delete-button";
+      $('input.custom-control-input').on('click', function(){
+        let input_id = $(this).attr("id");
+        if($(this).prop('checked')){
+          delete_target.push(input_id);
+        }else{
+          let index = delete_target.indexOf(input_id)
+          delete_target.splice(index, 1);
+        }
+
+        // 削除対象の数によって、削除ボタンを有効/無効化する。
+        if(delete_target.length > 0){
+          $(delete_button).prop('disabled', false)
+        }else{
+          $(delete_button).prop('disabled', true)
+        }
+      });
+        
+      $("button#video-delete-button").on("click", function(){
+        $.each(delete_target, function(){
+          $.ajax({
+            url: "/admin/video/"+this,
+            type: "POST",
+            data: {id: [this]},
+          });
+        });
+      });
+
+  </script>
+  <% end %>

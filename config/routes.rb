@@ -12,6 +12,11 @@ Rails.application.routes.draw do
   post '/mypage', to: 'static_pages#file_upload'
   get '/mypage/:id', to: 'static_pages#mypage_pagination'
 
+  get '/admin', to: 'admins#index'
+  post '/admin', to: 'admins#file_upload'
+  get '/admin/:id', to: 'admins#admin_pagination'
+  post '/admin/video/:id', to: 'admins#video_destroy'
+
   get '/delete/:id', to: 'static_pages#delete_user', as: 'delete_user'
 
   get '/video/:id', to: 'static_pages#video'
