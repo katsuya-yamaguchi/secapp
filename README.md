@@ -1,24 +1,27 @@
-# README
+# secapp
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## 概要
+セキュリティ対策に関する動画を配信するサービスとして作成しました。現在実装されている機能としては、以下になります。
+- Twitter認証機能
+- ログインユーザのみ「いいね！」をすることができる
+- 管理画面からの動画アップロード機能
+- トップ画面で、動画を無限スクロールで表示
+- 動画再生機能
 
-Things you may want to cover:
+インフラ環境は以下になります。
+- ConoHa VPS
+- ConoHa オブジェクトストレージ
 
-* Ruby version
+テストコードについては一部しか載せていません。
 
-* System dependencies
+> 動画を配信するサービスとして作成しましたが、その動画を作ることに時間を取れず止む無く閉鎖しました。。。
+> 新たなサービスに生まれ変わらせてまた挑戦します！
 
-* Configuration
+## 注意事項
+- このリポジトリのコードは、情報の提供のみを目的としています。したがってこのリポジトリのコードを用いた運用は、必ずお客様自身の責任と判断によって行ってください。これらの情報の運用の結果について、筆者はいかなる責任も負いません。
+- このリポジトリのコードはブログやWeb記事等で引用してもらってもかまいません。ただし、その際は必ず引用元を明記してください。
 
-* Database creation
+## Copyright
+山口 勝也(Katsuya Yamaguchi)
 
-* Database initialization
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
